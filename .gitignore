@@ -5,6 +5,7 @@
 **/build
 # Ignore environment variables
 /.env
+**/.env
 
 # Ignore log files
 *.log
