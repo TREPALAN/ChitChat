@@ -18,7 +18,7 @@ async function main() {
   await mongoose.connect(process.env.MONGO_URI);
 }
 
-//
+// Start server
 app.use(cors(corsOptions));
 app.use(express.json());
 require("./startup/routes")(app);
