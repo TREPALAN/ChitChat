@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-function Home() {
+function Index() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8000/home")
+    fetch("/home")
       .then((res) => res.json())
       .then((data) => setMessage(data.message));
   }, []);
@@ -16,4 +16,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Index;

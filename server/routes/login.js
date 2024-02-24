@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const { Cookies } = require("universal-cookie");
 const login = async (req, res) => {
   const { username, password } = req.body;
 
@@ -16,7 +17,19 @@ const login = async (req, res) => {
   const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
-  res.json({ message: "Login successful", token });
+  const refreshToken = jwt.sign(
+    { username: user.username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+
+  //   Save refresh token
+  const cookies = new Cookies();
+  cookies.set("refresh_token", refreshToken, {});
+  cookies.set("token", token, {});
+  res.json({ message: "Login successful", token, refreshToken });
 };
 
 module.exports = login;
