@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-function Index() {
+import logout from "./logout";
+function Home() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
@@ -13,8 +13,9 @@ function Index() {
   return (
     <div className="App">
       <h1>{message}</h1>
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }
 
-export default Index;
+export default Home;

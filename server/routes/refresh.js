@@ -6,33 +6,29 @@ const refresh = async (req, res) => {
     return res.status(401).json({ message: "Invalid credentials" });
   }
 
-  try {
-    jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) {
-        return res.status(401).json({ message: "Invalid credentials" });
+  jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { username: decoded.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
       }
+    );
 
-      const token = jwt.sign(
-        { username: decoded.username },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "1h",
-        }
-      );
+    const newRefreshToken = jwt.sign(
+      { username: decoded.username },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
-      const newRefreshToken = jwt.sign(
-        { username: decoded.username },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "7d",
-        }
-      );
-
-      res.json({ token, refreshToken: newRefreshToken });
-    });
-  } catch (error) {
-    console.log(error);
-  }
+    res.json({ token, refreshToken: newRefreshToken });
+  });
 };
 
 module.exports = refresh;

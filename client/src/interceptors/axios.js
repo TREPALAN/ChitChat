@@ -29,6 +29,7 @@ axios.interceptors.response.use(
 );
 
 async function getrefreshToken() {
+  // Handle token expiration
   let refreshToken = localStorage.getItem("refresh_token");
   if (!refreshToken) {
     return Promise.reject(new Error("No refresh token"));
