@@ -1,33 +1,48 @@
 import axios from "axios";
-import Cookies from "universal-cookie";
-import refresh from "../../../server/routes/refresh";
 
-const cookies = new Cookies();
-// Handle refresh token
-let refresh = false;
-axios.interceptors.response.use(
-  (resp) => resp,
-  async (error) => {
-    if (error.response.status === 401 && !refresh) {
-      refresh = true;
-      const response = await axios.post(
-        "http://localhost:8000/refresh/",
-        {
-          refreshToken: cookies.get("refresh_token"),
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 200) {
-        cookies.set("token", response.data.token);
-        cookies.set("refresh_token", response.data.refreshToken);
-        return axios(error.config);
-        refresh = false;
-      }
+axios.interceptors.request.use(
+  (config) => {
+    // Access and modify the headers before the request is sent
+    const authToken = localStorage.getItem("token");
+    if (authToken) {
+      config.headers["Authorization"] = `Bearer ${authToken}`;
     }
-    return error;
+    // Use the authToken and refreshToken as needed
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
 );
+
+// Add a response interceptor
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  async (error) => {
+    if (error.response && error.response.status === 401) {
+      await getrefreshToken();
+    }
+    return Promise.reject(error);
+  }
+);
+
+async function getrefreshToken() {
+  let refreshToken = localStorage.getItem("refresh_token");
+  if (!refreshToken) {
+    return Promise.reject(new Error("No refresh token"));
+  }
+  // Request for new access token
+  const response = await axios.post("http://localhost:8000/refresh", {
+    refreshToken,
+  });
+  try {
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("refresh_token", response.data.refreshToken);
+    return Promise.resolve();
+  } catch (error) {
+    console.error(error);
+    return Promise.reject();
+  }
+}

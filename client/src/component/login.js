@@ -18,13 +18,8 @@ function Login() {
         if (!response.data.token || !response.data.refreshToken) {
           throw new Error("Invalid credentials");
         }
-        // Configure axios headers
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-        axios.defaults.headers.common[
-          "refreshToken"
-        ] = `Bearer ${response.data.refreshToken}`;
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("refresh_token", response.data.refreshToken);
         window.location.href = "/";
       }
     } catch (error) {
