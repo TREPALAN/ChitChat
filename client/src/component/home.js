@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import logout from "./logout";
+import api from "../interceptors/axios";
+import logout from "../utils/logoutFunction";
 function Home() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/home")
-      .then((res) => setMessage(res.data.message));
+    api.get("/home").then((res) => setMessage(res.data.message));
   });
 
   return (

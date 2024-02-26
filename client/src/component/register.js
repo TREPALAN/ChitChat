@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-import LoginFunction from "./loginFunction";
+import api from "../interceptors/axios";
+import LoginFunction from "../utils/loginFunction";
 function Register() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -9,7 +9,7 @@ function Register() {
 
   async function HandleSubmit(event) {
     event.preventDefault();
-    const response = await axios.post("http://localhost:8000/register", {
+    const response = await api.post("/register", {
       username,
       email,
       password,

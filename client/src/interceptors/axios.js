@@ -1,6 +1,10 @@
 import axios from "axios";
 
-axios.interceptors.request.use(
+const api = axios.create({
+  baseURL: "http://localhost:8000",
+});
+
+api.interceptors.request.use(
   (config) => {
     // Access and modify the headers before the request is sent
     const authToken = localStorage.getItem("token");
@@ -16,7 +20,7 @@ axios.interceptors.request.use(
 );
 
 // Add a response interceptor
-axios.interceptors.response.use(
+api.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -35,7 +39,7 @@ async function getrefreshToken() {
     return Promise.reject(new Error("No refresh token"));
   }
   // Request for new access token
-  const response = await axios.post("http://localhost:8000/refresh", {
+  const response = await api.post("/refresh", {
     refreshToken,
   });
   try {
@@ -47,3 +51,5 @@ async function getrefreshToken() {
     return Promise.reject();
   }
 }
+
+export default api;

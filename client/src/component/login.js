@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoginFunction from "./loginFunction";
+import LoginFunction from "../utils/loginFunction";
 
 function Login() {
   const [message, setMessage] = useState("");

@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "../interceptors/axios";
 
 async function LoginFunction({ username, password }) {
   try {
     // Handle form submit
-    const response = await axios.post("http://localhost:8000/login", {
+    const response = await api.post("/login", {
       username,
       password,
     });
