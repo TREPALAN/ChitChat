@@ -26,8 +26,23 @@ api.interceptors.response.use(
   },
   async (error) => {
     if (error.response && error.response.status === 401) {
-      await getrefreshToken();
+      let isloggedin = localStorage.getItem("token");
+      if (!isloggedin) {
+        console.error("No token");
+        return Promise.reject(error);
+      }
+      const refresSuccess = await getrefreshToken();
+      try {
+        return api(error.config);
+      } catch (error) {
+        return Promise.reject(error);
+      }
     }
+    if (error.response && error.response.status === 409) {
+      // Handle conflict error
+      return Promise.resolve(error.response);
+    }
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
     return Promise.reject(error);
   }
 );

@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../interceptors/axios";
 import LoginFunction from "../utils/loginFunction";
 function Register() {
+  const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,16 +18,21 @@ function Register() {
     });
     if (response.status === 200) {
       alert("User registered successfully");
-      LoginFunction({ username, password });
-    } else {
-      alert(response.data.message);
-      console.error("Error registering user");
+      let message = await LoginFunction({ username, password });
+      if (message.code === 200) {
+        setMessage(message.message);
+        window.location.href = "/";
+      }
+      setMessage(message.message);
     }
+    console.log(response);
+    setMessage(response.data.message);
   }
 
   return (
     <div>
       <h1>Register</h1>
+      <p>{message}</p>
       <form onSubmit={HandleSubmit}>
         <label>
           Username:

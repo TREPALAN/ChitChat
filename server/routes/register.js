@@ -4,6 +4,11 @@ const User = require("../models/user");
 const register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
+  // Check if all fields are filled
+  if (!username || !email || !password || !confirmPassword) {
+    return res.status(400).json({ message: "Please fill in all fields" });
+  }
+
   // Check if passwords match
   if (password !== confirmPassword) {
     return res.status(400).json({ message: "Passwords do not match" });
