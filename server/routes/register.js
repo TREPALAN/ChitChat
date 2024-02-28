@@ -6,12 +6,12 @@ const register = async (req, res) => {
 
   // Check if all fields are filled
   if (!username || !email || !password || !confirmPassword) {
-    return res.status(400).json({ message: "Please fill in all fields" });
+    return res.status(409).json({ message: "Please fill in all fields" });
   }
 
   // Check if passwords match
   if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
+    return res.status(409).json({ message: "Passwords do not match" });
   }
 
   // Check if user already exists

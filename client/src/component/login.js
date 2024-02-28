@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LoginFunction from "../utils/loginFunction";
+import "../component/css/userForm.css";
 
 function Login() {
   const [message, setMessage] = useState("");
@@ -17,19 +18,44 @@ function Login() {
 
   return (
     <>
-      <h1>{message}</h1>
+      <h1>Login</h1>
+
       <form onSubmit={HandleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input type="submit" />
+        <div className="form-group">
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username:
+            </label>
+            <input
+              placeholder="username"
+              type="text"
+              className="form-control"
+              id="username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password:
+            </label>
+            <input
+              placeholder="password"
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+
+          <alert className="alert alert-danger">{message}</alert>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </div>
       </form>
     </>
   );

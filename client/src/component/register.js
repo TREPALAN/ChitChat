@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../interceptors/axios";
 import LoginFunction from "../utils/loginFunction";
+
 function Register() {
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -10,6 +11,10 @@ function Register() {
 
   async function HandleSubmit(event) {
     event.preventDefault();
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+      return;
+    }
     const response = await api.post("/register", {
       username,
       email,
@@ -32,45 +37,75 @@ function Register() {
   return (
     <div>
       <h1>Register</h1>
-      <p>{message}</p>
+
       <form onSubmit={HandleSubmit}>
-        <label>
-          Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <label>
-          Confirm Password:
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </label>
-        <br />
-        <button type="submit">Register</button>
+        <div className="form-group">
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">
+              Username:
+            </label>
+            <input
+              required
+              placeholder="username"
+              type="text"
+              className="form-control"
+              id="username"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">
+              Email:
+            </label>
+            <input
+              required
+              placeholder="email"
+              type="email"
+              className="form-control"
+              id="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password:
+            </label>
+            <input
+              required
+              placeholder="password"
+              type="password"
+              className="form-control"
+              id="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirm Password:
+            </label>
+            <input
+              required
+              placeholder="confirmPassword"
+              type="password"
+              className="form-control"
+              id="confirmPassword"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          </div>
+
+          <alert className="alert alert-danger">{message}</alert>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   );
