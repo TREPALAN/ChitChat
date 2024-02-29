@@ -35,7 +35,6 @@ function Login() {
               onChange={(event) => setUsername(event.target.value)}
             />
           </div>
-
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
               Password:
@@ -49,9 +48,7 @@ function Login() {
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
-
-          <alert className="alert alert-danger">{message}</alert>
-
+          <alert className="alert alert-danger">{message}</alert>-*
           <button type="submit" className="btn btn-primary">
             Submit
           </button>
