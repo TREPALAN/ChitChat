@@ -1,4 +1,6 @@
-async function getrefreshToken() {
+import api from "../interceptors/axios";
+
+async function getRefreshToken() {
   // Handle token expiration
   let refreshToken = localStorage.getItem("refresh_token");
   if (!refreshToken) {
@@ -18,4 +20,4 @@ async function getrefreshToken() {
   }
 }
 
-export default getrefreshToken;
+export default getRefreshToken;

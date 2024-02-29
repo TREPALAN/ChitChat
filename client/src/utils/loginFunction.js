@@ -1,6 +1,11 @@
 import api from "../interceptors/axios";
 
 async function LoginFunction({ username, password }) {
+  // Delete any existing tokens
+  localStorage.removeItem("token");
+  localStorage.removeItem("refresh_token");
+
+  // Handle form submit
   let message = "";
 
   try {

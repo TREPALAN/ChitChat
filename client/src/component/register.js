@@ -22,13 +22,12 @@ function Register() {
       confirmPassword,
     });
     if (response.status === 200) {
-      alert("User registered successfully");
       let message = await LoginFunction({ username, password });
       if (message.code === 200) {
-        setMessage(message.message);
         window.location.href = "/";
+      } else {
+        setMessage(message.message);
       }
-      setMessage(message.message);
     }
     console.log(response);
     setMessage(response.data.message);
@@ -38,7 +37,7 @@ function Register() {
     <div>
       <h1>Register</h1>
 
-      <form onSubmit={HandleSubmit}>
+      <form onSubmit={HandleSubmit} className="userForm">
         <div className="form-group">
           <div className="mb-3">
             <label htmlFor="username" className="form-label">
@@ -46,6 +45,7 @@ function Register() {
             </label>
             <input
               required
+              autoComplete="username"
               placeholder="username"
               type="text"
               className="form-control"
@@ -61,6 +61,7 @@ function Register() {
             </label>
             <input
               required
+              autoComplete="email"
               placeholder="email"
               type="email"
               className="form-control"
@@ -76,6 +77,7 @@ function Register() {
             </label>
             <input
               required
+              autoComplete="current-password"
               placeholder="password"
               type="password"
               className="form-control"
@@ -91,6 +93,7 @@ function Register() {
             </label>
             <input
               required
+              autoComplete="current-password"
               placeholder="confirmPassword"
               type="password"
               className="form-control"
@@ -100,7 +103,7 @@ function Register() {
             />
           </div>
 
-          <alert className="alert alert-danger">{message}</alert>
+          {message && <p className="alert alert-danger">{message}</p>}
 
           <button type="submit" className="btn btn-primary">
             Submit
