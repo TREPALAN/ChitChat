@@ -2,8 +2,7 @@ import api from "../interceptors/axios";
 
 async function LoginFunction({ username, password }) {
   // Delete any existing tokens
-  localStorage.removeItem("token");
-  localStorage.removeItem("refresh_token");
+  localStorage.clear();
 
   // Handle form submit
   let message = "";
@@ -22,6 +21,7 @@ async function LoginFunction({ username, password }) {
       }
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refresh_token", response.data.refreshToken);
+      localStorage.setItem("username", username);
       message = "Login successful";
       return { code: 200, message };
     }

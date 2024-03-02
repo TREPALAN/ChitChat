@@ -27,7 +27,7 @@ const login = async (req, res) => {
       expiresIn: "7d",
     }
   );
-  res.json({ message: "Login successful", token, refreshToken });
+  res.json({ message: "Login successful", token, refreshToken, username });
 };
 
 module.exports = login;

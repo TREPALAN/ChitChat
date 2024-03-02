@@ -1,15 +1,17 @@
 import logout from "../utils/logoutFunction";
 import "../component/css/navigationBar.css";
 
+const username = localStorage.getItem("username");
+
 function NavigationBar() {
   return (
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="/">
           ChitChat
         </a>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -17,35 +19,39 @@ function NavigationBar() {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a
+                className="nav-link active"
+                aria-current="page"
+                href="/onlineFriends"
+              >
+                Online
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Features
+            <li className="nav-item">
+              <a className="nav-link" href="/allFriends">
+                All
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Pricing
+            <li className="nav-item">
+              <a className="nav-link" href="/addFriend">
+                Add Friend
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">
-                Disabled
-              </a>
+            <li className="nav-item">
+              <span className="nav-link disabled" aria-disabled="true">
+                Loged as {username}
+              </span>
             </li>
           </ul>
         </div>
-        <a className="d-flex logoutButton" onClick={logout}>
+        <span className="d-flex logoutButton" onClick={logout}>
           Logout
-        </a>
+        </span>
       </div>
     </nav>
   );
