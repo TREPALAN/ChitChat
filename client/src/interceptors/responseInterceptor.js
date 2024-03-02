@@ -1,5 +1,6 @@
 import api from "./axios";
 import getRefreshToken from "../utils/getRefreshToken";
+import logout from "../utils/logoutFunction";
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => {
@@ -10,8 +11,7 @@ api.interceptors.response.use(
       let isloggedin = localStorage.getItem("token");
       if (!isloggedin) {
         console.error("No token");
-        window.location.href = "/";
-        return Promise.reject(error);
+        logout();
       }
       // Delete expired token
       localStorage.removeItem("token");

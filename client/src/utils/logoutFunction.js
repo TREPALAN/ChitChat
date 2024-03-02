@@ -1,6 +1,5 @@
 function logout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("refresh_token");
+  localStorage.clear();
   window.location.href = "/";
 }
 export default logout;
