@@ -8,7 +8,7 @@ const refresh = async (req, res) => {
 
   jwt.verify(refreshToken, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({ message: "expired refresh token" });
     }
 
     const token = jwt.sign(
