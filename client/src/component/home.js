@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import api from "../interceptors/axios";
 function Home() {
   const [message, setMessage] = useState("");
-
   useEffect(() => {
     api.get("/home").then((res) => setMessage(res.data.message));
   });
