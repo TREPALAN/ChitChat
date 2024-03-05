@@ -27,12 +27,9 @@ const server = http.createServer(app); // creates a server
 const io = new Server(server, {
   cors: corsOptions,
 });
-io.on("connection", (socket) => {
-  console.log("User connected");
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
+
+// Socket.io
+require("./socket.io/socket")(io);
 
 server.listen(5000, () => {
   console.log("Server is running on port 5000");
