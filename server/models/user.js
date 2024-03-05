@@ -45,10 +45,6 @@ const userSchema = new mongoose.Schema({
       ref: "User",
     },
   ],
-  isOnline: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 module.exports = mongoose.model("User", userSchema);

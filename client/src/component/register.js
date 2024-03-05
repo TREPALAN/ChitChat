@@ -29,7 +29,6 @@ function Register() {
         setMessage(message.message);
       }
     }
-    console.log(response);
     setMessage(response.data.message);
   }
 

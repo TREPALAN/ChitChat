@@ -1,8 +1,48 @@
+import { useState } from "react";
+import api from "../interceptors/axios";
+import UserCard from "./userCard";
 function AddFriend() {
+  const [input, setInput] = useState("");
+  const [users, setUsers] = useState([]);
+  const [message, setMessage] = useState("");
+
+  async function HandleSubmit(event) {
+    event.preventDefault();
+    const response = await api.post("/searchFriend", { username: input });
+    if (response.status === 200) {
+      setUsers(response.data);
+    }
+    setMessage(response.data.message);
+  }
   return (
-    <div>
+    <>
       <h1>Add Friend</h1>
-    </div>
+      <form onSubmit={HandleSubmit}>
+        <div className="form-group">
+          <input
+            placeholder="username"
+            type="search"
+            className="form-control"
+            aria-label="Large"
+            aria-describedby="inputGroup-sizing-sm"
+            onChange={(e) => setInput(e.target.value)}
+          />
+          <button type="submit" className="btn btn-primary btn-lg">
+            Large button
+          </button>
+          {message && <p>{message}</p>}
+          {users &&
+            users.map(({ id, username, profilePicture }) => (
+              <UserCard
+                key={id}
+                id={id}
+                username={username}
+                profilePicture={profilePicture}
+              />
+            ))}
+        </div>
+      </form>
+    </>
   );
 }
 
