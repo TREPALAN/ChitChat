@@ -7,7 +7,7 @@ const searchFriendRoute = require("../routes/searchFriend");
 // Routes
 module.exports = (app) => {
   app.use("/home", auth, indexRoute);
-  app.post("/searchFriend", searchFriendRoute);
+  app.use("/searchFriend", auth, searchFriendRoute);
 
   // Authentication
   app.post("/register", registerRoute);

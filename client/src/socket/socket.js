@@ -3,9 +3,13 @@ import io from "socket.io-client";
 
 function Socket() {
   useEffect(() => {
-    const socket = io("http://localhost:5000");
+    const socket = io("http://localhost:5000", {
+      auth: {
+        token: localStorage.getItem("token"),
+      },
+    });
     socket.on("connect", () => {
-      socket.emit("setUsername", localStorage.getItem("username"));
+      console.log("connected to socket");
     });
 
     return () => {

@@ -2,13 +2,14 @@ import { useState } from "react";
 import api from "../interceptors/axios";
 import UserCard from "./userCard";
 function AddFriend() {
-  const [input, setInput] = useState("");
+  const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
 
   async function HandleSubmit(event) {
     event.preventDefault();
-    const response = await api.post("/searchFriend", { username: input });
+    console.log(username);
+    const response = await api.get("/SearchFriend", { params: { username } });
     if (response.status === 200) {
       setUsers(response.data);
     }
@@ -25,7 +26,7 @@ function AddFriend() {
             className="form-control"
             aria-label="Large"
             aria-describedby="inputGroup-sizing-sm"
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
           />
           <button type="submit" className="btn btn-primary btn-lg">
             Large button
