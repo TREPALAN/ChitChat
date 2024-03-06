@@ -8,7 +8,6 @@ function AddFriend() {
 
   async function HandleSubmit(event) {
     event.preventDefault();
-    console.log(username);
     const response = await api.get("/SearchFriend", { params: { username } });
     if (response.status === 200) {
       setUsers(response.data);

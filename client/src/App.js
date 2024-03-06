@@ -9,12 +9,12 @@ import AllFriends from "./component/allFriends";
 import OnlineFriends from "./component/onlineFriends";
 import isLogedin from "./utils/isLogedin";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
-import Socket from "./socket/socket";
+import Effect from "./socket/socketEffect";
 function App() {
   return (
     <BrowserRouter>
       {isLogedin() ? <NavigationBar /> : null}
-      {isLogedin() ? <Socket /> : null}
+      {isLogedin() ? <Effect /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

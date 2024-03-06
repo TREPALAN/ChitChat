@@ -1,23 +1,16 @@
-import { useEffect } from "react";
 import io from "socket.io-client";
 
-function Socket() {
-  useEffect(() => {
-    const socket = io("http://localhost:5000", {
-      auth: {
-        token: localStorage.getItem("token"),
-      },
-    });
-    socket.on("connect", () => {
-      console.log("connected to socket");
-    });
+export const socket = io("http://localhost:5000", {
+  auth: {
+    token: localStorage.getItem("token"),
+  },
+});
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  return null;
+export function TrackOnlineUser(username) {
+  return new Promise((resolve, reject) => {
+    // Track if a user is online
+    socket.emit("userOnline", username, (result) => {
+      resolve(result);
+    });
+  });
 }
-
-export default Socket;
