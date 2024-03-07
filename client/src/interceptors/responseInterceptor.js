@@ -27,6 +27,11 @@ api.interceptors.response.use(
       // Handle conflict error
       return Promise.resolve(error.response);
     }
+
+    if (error.response && error.response.status === 404) {
+      // Handle not found error
+      return Promise.resolve(error.response);
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     return Promise.reject(error);
   }

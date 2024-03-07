@@ -9,10 +9,8 @@ function UserCard({ id, username, profilePicture }) {
       const result = await TrackOnlineUser(username);
       setOnline(result);
     }
-
     checkOnline();
-
-    const interval = setInterval(checkOnline, 5000); // Replace 5000 with the interval time in milliseconds
+    const interval = setInterval(checkOnline, 5000); // 5000 with the interval time in milliseconds
 
     return () => {
       clearInterval(interval); // Clean up the interval when the component is unmounted

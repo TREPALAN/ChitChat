@@ -34,7 +34,7 @@ function NavigationBar() {
             </li>
             <li className="nav-item">
               <a className="nav-link" href="/allFriends">
-                All
+                Friends
               </a>
             </li>
             <li className="nav-item">

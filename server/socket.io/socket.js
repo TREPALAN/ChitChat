@@ -11,7 +11,6 @@ module.exports = (io) => {
       // Get the user username from the token
       user = jwt.verify(token, process.env.JWT_SECRET);
       onlineUsers.push({ username: user.username, id: socket.id });
-      console.log("online users", onlineUsers);
     } catch (error) {
       // If token is invalid
       console.log(error);
@@ -32,7 +31,6 @@ module.exports = (io) => {
     socket.on("disconnect", () => {
       console.log("user disconnected", user.username);
       onlineUsers = onlineUsers.filter((u) => u.id !== socket.id);
-      console.log("online users", onlineUsers);
     });
   });
 };

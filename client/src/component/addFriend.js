@@ -11,8 +11,11 @@ function AddFriend() {
     const response = await api.get("/SearchFriend", { params: { username } });
     if (response.status === 200) {
       setUsers(response.data);
+      setMessage("");
+    } else {
+      setMessage(response.data.message);
+      setUsers([]);
     }
-    setMessage(response.data.message);
   }
   return (
     <>
