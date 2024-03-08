@@ -1,10 +1,16 @@
 import io from "socket.io-client";
 
-export const socket = io("http://localhost:5000", {
-  auth: {
-    token: localStorage.getItem("token"),
-  },
-});
+let socket;
+
+export function socketConnect(token) {
+  const socket = io("http://localhost:5000", {
+    auth: {
+      token,
+    },
+  });
+
+  return socket;
+}
 
 export function TrackOnlineUser(username) {
   return new Promise((resolve, reject) => {

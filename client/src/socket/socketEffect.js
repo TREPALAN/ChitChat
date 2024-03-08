@@ -1,13 +1,14 @@
 import { useEffect } from "react";
-import { socket } from "./socket";
+import { socketConnect } from "../socket/socket";
 
 function Effect() {
+  const token = localStorage.getItem("token");
   useEffect(() => {
-    socket.connect();
+    const socket = socketConnect(token);
     return () => {
       socket.disconnect();
     };
-  });
+  }, [token]);
 
   return null;
 }

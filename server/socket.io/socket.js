@@ -11,12 +11,12 @@ module.exports = (io) => {
       // Get the user username from the token
       user = jwt.verify(token, process.env.JWT_SECRET);
       onlineUsers.push({ username: user.username, id: socket.id });
+      console.log("user connected", user.username);
     } catch (error) {
       // If token is invalid
-      console.log(error);
+      console.log("invalid token");
       socket.disconnect();
     }
-    console.log("new user connected", user.username);
 
     // Track if a user is online
     socket.on("userOnline", (username, callback) => {

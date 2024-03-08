@@ -1,6 +1,7 @@
 import api from "./axios";
 import getRefreshToken from "../utils/getRefreshToken";
 import logout from "../utils/logoutFunction";
+import { socketConnect } from "../socket/socket";
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => {
@@ -9,6 +10,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response && error.response.status === 401) {
       // Handle expired refresh token
+
       const message = error.response.data.message;
       if (message === "expired refresh token") {
         console.log("expired refresh token");
@@ -18,6 +20,8 @@ api.interceptors.response.use(
       // Handle unauthorized error
       await getRefreshToken();
       try {
+        // Reconect to the server and socket
+        socketConnect(localStorage.getItem("token"));
         return api(error.config);
       } catch (error) {
         return Promise.reject(error);
