@@ -27,6 +27,10 @@ api.interceptors.response.use(
         return Promise.reject(error);
       }
     }
+    if (error.response && error.response.status === 400) {
+      // Handle bad request error
+      return Promise.resolve(error.response);
+    }
     if (error.response && error.response.status === 409) {
       // Handle conflict error
       return Promise.resolve(error.response);

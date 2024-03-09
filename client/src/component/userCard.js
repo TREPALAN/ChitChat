@@ -18,7 +18,7 @@ function UserCard({ id, username, profilePicture }) {
   }, [username]);
 
   return (
-    <div className="card">
+    <div className="card" key={id}>
       {online ? (
         <div className="online">on</div>
       ) : (

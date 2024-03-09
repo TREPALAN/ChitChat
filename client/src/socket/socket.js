@@ -1,15 +1,15 @@
-import io from "socket.io-client";
+import io, { Socket } from "socket.io-client";
 
 let socket;
 
 export function socketConnect(token) {
-  const socket = io("http://localhost:5000", {
+  const url = io("http://localhost:5000", {
     auth: {
       token,
     },
   });
-
-  return socket;
+  socket = url;
+  return url;
 }
 
 export function TrackOnlineUser(username) {
@@ -20,3 +20,5 @@ export function TrackOnlineUser(username) {
     });
   });
 }
+
+export default socket;
