@@ -7,7 +7,7 @@ async function getRefreshToken() {
     return Promise.reject(new Error("No refresh token"));
   }
   // Request for new access token
-  const response = await api.post("/refresh", {
+  const response = await api.post("auth/refresh", {
     refreshToken,
   });
   try {

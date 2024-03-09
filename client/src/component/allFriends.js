@@ -7,7 +7,7 @@ function AllFriends() {
   useEffect(() => {
     // Get all friends
     async function getUsers() {
-      const response = await api.get("/allFriends");
+      const response = await api.get("home/allFriends");
       if (response.status === 200) {
         setUsers(response.data);
         setMessage("");

@@ -9,7 +9,7 @@ async function LoginFunction({ username, password }) {
 
   try {
     // Handle form submit
-    const response = await api.post("/login", {
+    const response = await api.post("auth/login", {
       username,
       password,
     });

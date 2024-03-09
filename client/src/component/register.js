@@ -15,7 +15,7 @@ function Register() {
       setMessage("Passwords do not match");
       return;
     }
-    const response = await api.post("/register", {
+    const response = await api.post("auth/register", {
       username,
       email,
       password,

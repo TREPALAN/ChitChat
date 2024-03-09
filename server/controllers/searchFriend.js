@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const { validationResult } = require("express-validator");
 const searchFriendRoute = async (req, res) => {
   username = req.query.username;
   const users = await User.find({

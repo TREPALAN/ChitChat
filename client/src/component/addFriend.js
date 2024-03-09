@@ -12,7 +12,7 @@ function AddFriend() {
       setMessage("Please enter a username");
       return;
     }
-    const response = await api.get("/SearchFriend", {
+    const response = await api.get("home/SearchFriend", {
       params: { username: search },
     });
     if (response.status === 200) {
