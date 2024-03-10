@@ -5,9 +5,6 @@ module.exports = [
     .escape()
     .isString()
     .withMessage("username is required"),
-  body("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters long"),
   (req, res, next) => {
     const result = validationResult(req);
     if (result.isEmpty()) {

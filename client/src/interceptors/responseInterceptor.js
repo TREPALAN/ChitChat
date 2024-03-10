@@ -1,7 +1,6 @@
 import api from "./axios";
 import getRefreshToken from "../utils/getRefreshToken";
 import logout from "../utils/logoutFunction";
-import { socketConnect } from "../socket/socket";
 // Add a response interceptor
 api.interceptors.response.use(
   (response) => {
@@ -20,8 +19,6 @@ api.interceptors.response.use(
       // Handle unauthorized error
       await getRefreshToken();
       try {
-        // Reconect to the server and socket
-        socketConnect(localStorage.getItem("token"));
         return api(error.config);
       } catch (error) {
         return Promise.reject(error);

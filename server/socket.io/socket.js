@@ -15,6 +15,7 @@ module.exports = (io) => {
     } catch (error) {
       // If token is invalid
       console.log("invalid token");
+      socket.emit("invalidToken");
       socket.disconnect();
     }
 
