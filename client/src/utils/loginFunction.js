@@ -24,6 +24,10 @@ async function LoginFunction({ username, password }) {
       localStorage.setItem("username", username);
       message = "Login successful";
       return { code: 200, message };
+    } else {
+      // Handle error
+      message = "Invalid credentials";
+      return { code: response.status, message: response.data.message };
     }
   } catch (error) {
     // Handle error

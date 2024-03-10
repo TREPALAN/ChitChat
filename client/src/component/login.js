@@ -9,6 +9,7 @@ function Login() {
   async function HandleSubmit(event) {
     event.preventDefault();
     let message = await LoginFunction({ username, password });
+    setMessage(message);
     if (message.code === 200) {
       window.location.href = "/";
     } else {

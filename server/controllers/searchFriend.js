@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const searchFriendRoute = async (req, res) => {
   username = req.query.username;
+  console.log(username);
   const users = await User.find({
     username: { $regex: username, $options: "i" },
   }).select("_id username profilePicture");
