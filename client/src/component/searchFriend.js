@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../interceptors/axios";
 import UserCard from "./userCard";
-function AddFriend() {
+function SearchFriend() {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
@@ -42,12 +42,13 @@ function AddFriend() {
           </button>
           {message && <p>{message}</p>}
           {users &&
-            users.map(({ _id, username, profilePicture }) => (
+            users.map(({ _id, username, profilePicture, isFriend }) => (
               <UserCard
                 key={_id}
                 id={_id}
                 username={username}
                 profilePicture={profilePicture}
+                isFriend={isFriend}
               />
             ))}
         </div>
@@ -56,4 +57,4 @@ function AddFriend() {
   );
 }
 
-export default AddFriend;
+export default SearchFriend;

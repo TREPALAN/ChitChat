@@ -1,7 +1,6 @@
 const User = require("../models/user");
 async function allFriendsRoute(req, res) {
   const username = req.user.username;
-  console.log(username);
   const friends = await User.find({ username: username })
     .select("friends")
     .populate("friends")

@@ -4,7 +4,7 @@ import Home from "./component/home";
 import Login from "./component/login";
 import Register from "./component/register";
 import NavigationBar from "./component/navigationBar";
-import AddFriend from "./component/addFriend";
+import SearchFriend from "./component/searchFriend";
 import AllFriends from "./component/allFriends";
 import OnlineFriends from "./component/onlineFriends";
 import isLogedin from "./utils/isLogedin";
@@ -22,7 +22,7 @@ function App() {
           {/* Protected routes */}
           <Route path="/allFriends" element={<AllFriends />} />
           <Route path="/onlineFriends" element={<OnlineFriends />} />
-          <Route path="/addFriend" element={<AddFriend />} />
+          <Route path="/addFriend" element={<SearchFriend />} />
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>
