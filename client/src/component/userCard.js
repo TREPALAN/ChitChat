@@ -4,6 +4,8 @@ import api from "../interceptors/axios";
 
 function UserCard({ id, username, profilePicture, isFriend }) {
   const [online, setOnline] = useState(false);
+  const [friend, setFriend] = useState(isFriend);
+  const [isFetching, setIsFetching] = useState(false);
   useEffect(() => {
     // Track if a user is online
     async function checkOnline() {
@@ -21,11 +23,14 @@ function UserCard({ id, username, profilePicture, isFriend }) {
   // Add friend or remove friend
 
   async function addFriend() {
+    if (isFetching) return;
+    setIsFetching(true);
     const response = await api.post("home/addFriend", {
       username,
     });
     if (response.status === 200) {
-      isFriend = !isFriend;
+      setFriend(!friend);
+      setIsFetching(false);
     } else {
       alert(response.data.message);
     }
@@ -41,7 +46,7 @@ function UserCard({ id, username, profilePicture, isFriend }) {
       <div className="card-body">
         <h5 className="card-title">{username}</h5>
         <p className="card-text">{profilePicture}</p>
-        {isFriend ? (
+        {friend ? (
           <button className="btn btn-danger" onClick={addFriend}>
             remove friend
           </button>

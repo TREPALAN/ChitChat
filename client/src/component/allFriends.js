@@ -24,12 +24,13 @@ function AllFriends() {
       <h1>All Friends</h1>
       {message && <p>{message}</p>}
       {users &&
-        users.map(({ id, username, profilePicture }) => (
+        users.map(({ _id, username, profilePicture, isFriend }) => (
           <UserCard
-            key={id}
-            id={id}
+            key={_id}
+            id={_id}
             username={username}
             profilePicture={profilePicture}
+            isFriend={isFriend}
           />
         ))}
     </div>

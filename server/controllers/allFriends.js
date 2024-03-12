@@ -1,13 +1,22 @@
 const User = require("../models/user");
 async function allFriendsRoute(req, res) {
-  const username = req.user.username;
-  const friends = await User.find({ username: username })
-    .select("friends")
-    .populate("friends")
-    .exec();
-  if (!friends || friends.length === 1) {
-    return res.status(404).json({ message: "You have no friends" });
+  const user = await User.findOne({ _id: req.user._id }).populate("friends");
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
   }
+
+  const friends = user.friends.map((friend) => {
+    return {
+      _id: friend._id,
+      username: friend.username,
+      profilePicture: friend.profilePicture,
+      isFriend: true,
+    };
+  });
+  if (!friends) {
+    return res.status(404).json({ message: "No friends found" });
+  }
+
   res.json(friends);
 }
 
