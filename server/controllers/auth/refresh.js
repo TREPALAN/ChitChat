@@ -12,7 +12,7 @@ const refresh = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { username: decoded.username },
+      { _id: decoded._id, username: decoded.username },
       process.env.JWT_SECRET,
       {
         expiresIn: "1h",
@@ -20,7 +20,7 @@ const refresh = async (req, res) => {
     );
 
     const newRefreshToken = jwt.sign(
-      { username: decoded.username },
+      { _id: decoded._id, username: decoded.username },
       process.env.JWT_SECRET,
       {
         expiresIn: "7d",

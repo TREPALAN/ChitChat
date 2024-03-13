@@ -42,15 +42,18 @@ function SearchFriend() {
           </button>
           {message && <p>{message}</p>}
           {users &&
-            users.map(({ _id, username, profilePicture, isFriend }) => (
-              <UserCard
-                key={_id}
-                id={_id}
-                username={username}
-                profilePicture={profilePicture}
-                isFriend={isFriend}
-              />
-            ))}
+            users.map(
+              ({ _id, username, profilePicture, isFriend, isRequestSent }) => (
+                <UserCard
+                  key={_id}
+                  id={_id}
+                  username={username}
+                  profilePicture={profilePicture}
+                  isFriend={isFriend}
+                  isRequestSent={isRequestSent}
+                />
+              )
+            )}
         </div>
       </form>
     </>

@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../../models/user");
 
 const searchFriendRoute = async (req, res) => {
   username = req.query.username;
@@ -11,14 +11,25 @@ const searchFriendRoute = async (req, res) => {
   }
 
   // Check if user is already friends
-  const currentUser = req.user._id;
+  const currentUser = await User.findById(req.user._id);
 
   const usersWithFriendStatus = await Promise.all(
     users.map(async (user) => {
-      const isFriend = user.friends.includes(currentUser);
+      // Check if user is the same as the current user
+      if (user._id.toString() === currentUser._id.toString()) {
+        return {
+          ...user.toObject(),
+          isFriend: true,
+          isRequestSent: false,
+        };
+      }
+
+      const isFriend = user.friends.includes(currentUser._id);
+      const isRequestSent = currentUser.sentFriendRequests.includes(user._id);
       return {
         ...user.toObject(),
         isFriend,
+        isRequestSent,
       };
     })
   );

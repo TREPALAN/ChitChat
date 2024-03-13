@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../../models/user");
 async function allFriendsRoute(req, res) {
   const user = await User.findOne({ _id: req.user._id }).populate("friends");
   if (!user) {

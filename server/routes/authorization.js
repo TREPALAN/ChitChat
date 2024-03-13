@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const login = require("../controllers/login");
-const register = require("../controllers/register");
-const refresh = require("../controllers/refresh");
+const login = require("../controllers/auth/login");
+const register = require("../controllers/auth/register");
+const refresh = require("../controllers/auth/refresh");
 const loginMiddleware = require("./middlewares/loginMD");
 const registerMiddleware = require("./middlewares/registerMD");
 
