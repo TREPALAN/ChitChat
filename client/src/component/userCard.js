@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { TrackOnlineUser } from "../socket/socket";
 import api from "../interceptors/axios";
 
-function UserCard({ id, username, profilePicture, isFriend, isRequestSent }) {
+function UserCard({
+  id,
+  username,
+  profilePicture,
+  isFriend,
+  isRequestSent,
+  isRequestReceived,
+}) {
   const [online, setOnline] = useState(false);
   const [friend, setFriend] = useState(isFriend);
   const [requestSent, setRequestSent] = useState(isRequestSent);
+  const [requestReceived, setRequestReceived] = useState(isRequestReceived);
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
@@ -21,6 +29,26 @@ function UserCard({ id, username, profilePicture, isFriend, isRequestSent }) {
       clearInterval(interval); // Clean up the interval when the component is unmounted
     };
   }, [username]);
+
+  // Accept/Decline friend request
+  function acceptFriendRequest(event) {
+    event.preventDefault();
+
+    const choise = event.target.value;
+    let accept = false;
+    if (choise === "accept") {
+      accept = true;
+    }
+
+    api.post("request/acceptFriend", {
+      username,
+      accept,
+    });
+    if (accept) {
+      setFriend(!friend);
+    }
+    setRequestReceived(!requestReceived);
+  }
 
   // Remove friend
   async function removeFriend(event) {
@@ -79,8 +107,25 @@ function UserCard({ id, username, profilePicture, isFriend, isRequestSent }) {
           </>
         ) : // If the user is not a friend
 
-        requestSent ? (
-          // If the user is requesting or sent a friend request
+        // If the user is requesting or receiving a friend request
+        requestReceived ? (
+          <>
+            <button
+              className="btn btn-success"
+              value="accept"
+              onClick={acceptFriendRequest}
+            >
+              accept friend request
+            </button>
+            <button
+              className="btn btn-danger"
+              value="decline"
+              onClick={acceptFriendRequest}
+            >
+              decline friend request
+            </button>
+          </>
+        ) : requestSent ? (
           <button className="btn btn-danger" onClick={addFriend}>
             remove friend request
           </button>

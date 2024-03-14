@@ -26,10 +26,12 @@ const searchFriendRoute = async (req, res) => {
 
       const isFriend = user.friends.includes(currentUser._id);
       const isRequestSent = currentUser.sentFriendRequests.includes(user._id);
+      const isRequestReceived = currentUser.friendRequests.includes(user._id);
       return {
         ...user.toObject(),
         isFriend,
         isRequestSent,
+        isRequestReceived,
       };
     })
   );

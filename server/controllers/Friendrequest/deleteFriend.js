@@ -1,13 +1,14 @@
 const User = require("../../models/user");
 
-function deleteFriend(req, res) {
+async function deleteFriend(req, res) {
   username = req.body.username;
-
+  const user = await User.findOne({ username: username });
+  const requestUser = await User.findOne({ _id: req.user._id });
   try {
-    User.findOneAndUpdate(
-      { _id: req.user._id },
-      { $pull: { friends: { username: username } } }
-    );
+    user.friends.pull(requestUser);
+    requestUser.friends.pull(user);
+    user.save();
+    requestUser.save();
     res.json({ message: "Friend deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -43,7 +43,14 @@ function SearchFriend() {
           {message && <p>{message}</p>}
           {users &&
             users.map(
-              ({ _id, username, profilePicture, isFriend, isRequestSent }) => (
+              ({
+                _id,
+                username,
+                profilePicture,
+                isFriend,
+                isRequestSent,
+                isRequestReceived,
+              }) => (
                 <UserCard
                   key={_id}
                   id={_id}
@@ -51,6 +58,7 @@ function SearchFriend() {
                   profilePicture={profilePicture}
                   isFriend={isFriend}
                   isRequestSent={isRequestSent}
+                  isRequestReceived={isRequestReceived}
                 />
               )
             )}
