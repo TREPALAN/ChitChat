@@ -27,9 +27,9 @@ function NavigationBar() {
               <a
                 className="nav-link active"
                 aria-current="page"
-                href="/onlineFriends"
+                href="/friendRequests"
               >
-                Online
+                Friend Requests
               </a>
             </li>
             <li className="nav-item">

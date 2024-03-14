@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../interceptors/axios";
-import UserCard from "./userCard";
+import UserCardList from "./userCardList";
 function SearchFriend() {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
@@ -41,27 +41,7 @@ function SearchFriend() {
             Large button
           </button>
           {message && <p>{message}</p>}
-          {users &&
-            users.map(
-              ({
-                _id,
-                username,
-                profilePicture,
-                isFriend,
-                isRequestSent,
-                isRequestReceived,
-              }) => (
-                <UserCard
-                  key={_id}
-                  id={_id}
-                  username={username}
-                  profilePicture={profilePicture}
-                  isFriend={isFriend}
-                  isRequestSent={isRequestSent}
-                  isRequestReceived={isRequestReceived}
-                />
-              )
-            )}
+          {users && <UserCardList users={users} />}
         </div>
       </form>
     </>

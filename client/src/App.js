@@ -6,7 +6,7 @@ import Register from "./component/register";
 import NavigationBar from "./component/navigationBar";
 import SearchFriend from "./component/searchFriend";
 import AllFriends from "./component/allFriends";
-import OnlineFriends from "./component/onlineFriends";
+import FriendRequests from "./component/friendRequests";
 import isLogedin from "./utils/isLogedin";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
 import Effect from "./socket/socketEffect";
@@ -21,7 +21,7 @@ function App() {
         <Route element={<ProtectedRoutes />}>
           {/* Protected routes */}
           <Route path="/allFriends" element={<AllFriends />} />
-          <Route path="/onlineFriends" element={<OnlineFriends />} />
+          <Route path="/friendRequests" element={<FriendRequests />} />
           <Route path="/addFriend" element={<SearchFriend />} />
           <Route path="/" element={<Home />} />
         </Route>
