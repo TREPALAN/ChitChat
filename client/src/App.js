@@ -6,6 +6,7 @@ import Register from "./component/register";
 import NavigationBar from "./component/navigationBar";
 import SearchFriend from "./component/searchFriend";
 import AllFriends from "./component/allFriends";
+import PrivateChat from "./component/PrivateChat";
 import FriendRequests from "./component/friendRequests";
 import isLogedin from "./utils/isLogedin";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route element={<ProtectedRoutes />}>
           {/* Protected routes */}
+          <Route path="/privateChat/:username" element={<PrivateChat />} />
           <Route path="/allFriends" element={<AllFriends />} />
           <Route path="/friendRequests" element={<FriendRequests />} />
           <Route path="/addFriend" element={<SearchFriend />} />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { TrackOnlineUser } from "../socket/socket";
 import api from "../interceptors/axios";
+import { useHref } from "react-router-dom";
 
 function UserCard({
   id,
@@ -100,9 +101,12 @@ function UserCard({
             {username === localStorage.getItem("username") ? (
               <div>you</div>
             ) : (
-              <button className="btn btn-danger" onClick={removeFriend}>
-                remove friend
-              </button>
+              <div>
+                <button className="btn btn-danger" onClick={removeFriend}>
+                  remove friend
+                </button>
+                <a href={`/privateChat/${username}`}>Chat</a>
+              </div>
             )}
           </>
         ) : // If the user is not a friend
@@ -135,6 +139,8 @@ function UserCard({
           </button>
         )}
       </div>
+
+      {}
     </div>
   );
 }
