@@ -1,6 +1,4 @@
 import api from "../interceptors/axios";
-import { socketConnect } from "../socket/socket";
-
 async function getRefreshToken() {
   // Handle token expiration
   let refreshToken = localStorage.getItem("refresh_token");
@@ -12,7 +10,6 @@ async function getRefreshToken() {
     refreshToken,
   });
   try {
-    socketConnect(response.data.token);
     localStorage.setItem("token", response.data.token);
     localStorage.setItem("refresh_token", response.data.refreshToken);
     return Promise.resolve();

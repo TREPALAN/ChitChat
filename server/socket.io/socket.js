@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const sendPrivateMessage = require("./utilities/sendPrivateMessage");
+
 // Track online users
 let onlineUsers = [];
 module.exports = (io) => {
@@ -11,21 +13,30 @@ module.exports = (io) => {
       // Get the user username from the token
       user = jwt.verify(token, process.env.JWT_SECRET);
       onlineUsers.push({ username: user.username, id: socket.id });
-      console.log("user connected", user.username);
     } catch (error) {
       // If token is invalid
       console.log("invalid token");
       socket.emit("invalidToken");
       socket.disconnect();
     }
+    console.log("a user connected", user.username);
 
-    // Track if a user is online
-    socket.on("userOnline", (username, callback) => {
-      let isUserOnline = false;
-      if (onlineUsers.some((u) => u.username === username)) {
-        isUserOnline = true;
+    //Require utilities
+    require("./utilities/loadPrivateMessages")(socket, user.username);
+    require("./utilities/TrackIsUserOnline")(socket, onlineUsers);
+    socket.on("sendPrivateMessage", async (receiver, message, callback) => {
+      try {
+        result = await sendPrivateMessage(
+          socket,
+          user.username,
+          receiver,
+          onlineUsers,
+          message
+        );
+        callback({ result });
+      } catch (error) {
+        console.log(error);
       }
-      callback(isUserOnline);
     });
 
     // On disconnection
@@ -35,5 +46,3 @@ module.exports = (io) => {
     });
   });
 };
-
-module.exports.onlineUsers = onlineUsers;

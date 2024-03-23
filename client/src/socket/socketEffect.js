@@ -1,18 +1,28 @@
-import { useEffect } from "react";
-import { socketConnect } from "../socket/socket";
+import { useEffect, useState } from "react";
 import getRefreshToken from "../utils/getRefreshToken";
 import logout from "../utils/logoutFunction";
+import { socketConnect } from "./socket";
 
 function Effect() {
-  const token = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
   useEffect(() => {
     const socket = socketConnect(token);
+
+    // Get new messages
+    socket.on("receivePrivateMessage", (message) => {
+      alert(message);
+    });
 
     // Handle expired token
     socket.on("invalidToken", () => {
       // Handle expired token
       try {
-        getRefreshToken();
+        async function refreshToken() {
+          await getRefreshToken();
+          setToken(localStorage.getItem("token"));
+        }
+        refreshToken();
       } catch (error) {
         window.alert("Something went wrong");
         logout();
