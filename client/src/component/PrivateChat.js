@@ -12,6 +12,7 @@ function PrivateChat() {
   const [online, setOnline] = useState(false);
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [error, setError] = useState("");
   const { username } = useParams();
 
   useEffect(() => {
@@ -55,6 +56,11 @@ function PrivateChat() {
 
   async function sendMessage(event) {
     event.preventDefault();
+    if (!newMessage) {
+      setError("Please enter a message");
+      return;
+    }
+
     const result = await sendPrivateMessage(username, newMessage);
 
     event.target.reset();
@@ -72,8 +78,8 @@ function PrivateChat() {
           <MessageCard
             key={message._id}
             _id={message._id}
-            sender={message.sender}
-            receiver={message.receiver}
+            sender={message.sender.username}
+            receiver={message.receiver.username}
             date={message.date}
             message={message.message}
             isRead={message.isRead}
@@ -88,6 +94,7 @@ function PrivateChat() {
         />
         <button type="submit">Send</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
 }

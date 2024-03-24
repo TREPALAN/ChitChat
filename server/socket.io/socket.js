@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const sendPrivateMessage = require("./utilities/sendPrivateMessage");
+const markAsRead = require("./utilities/markAsRead");
 
 // Track online users
 let onlineUsers = [];
@@ -34,6 +35,14 @@ module.exports = (io) => {
           message
         );
         callback({ result });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    socket.on("markAsRead", async (_id, receiver) => {
+      try {
+        markAsRead(socket, _id, receiver, onlineUsers);
       } catch (error) {
         console.log(error);
       }

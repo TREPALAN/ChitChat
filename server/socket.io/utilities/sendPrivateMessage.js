@@ -19,7 +19,7 @@ async function sendPrivateMessage(
     });
     await newMessage.save();
 
-    // Send private message to  receiver socket if online
+    // Send private message to  all of the receiver secions
     if (onlineUsers.some((u) => u.username === receiver)) {
       const receiverSockets = onlineUsers.filter(
         (u) => u.username === receiver

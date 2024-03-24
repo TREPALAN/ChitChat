@@ -12,7 +12,9 @@ module.exports = (socket, username) => {
           { sender: user._id, receiver: requestUser._id },
           { sender: requestUser._id, receiver: user._id },
         ],
-      }).sort({ date: 1 });
+      })
+        .sort({ date: 1 })
+        .populate("sender receiver");
 
       // case of success
       callback(messages);
