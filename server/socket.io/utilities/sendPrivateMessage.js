@@ -8,13 +8,6 @@ async function sendPrivateMessage(
   onlineUsers,
   message
 ) {
-  // Send private message to  receiver socket if online
-  if (onlineUsers.some((u) => u.username === receiver)) {
-    socket
-      .to(onlineUsers.find((u) => u.username === receiver).id)
-      .emit("receivePrivateMessage", message, username);
-  }
-
   // Save private message in database
   try {
     const user = await User.findOne({ username: username });
@@ -25,6 +18,17 @@ async function sendPrivateMessage(
       receiver: requestUser._id,
     });
     await newMessage.save();
+
+    // Send private message to  receiver socket if online
+    if (onlineUsers.some((u) => u.username === receiver)) {
+      const receiverSockets = onlineUsers.filter(
+        (u) => u.username === receiver
+      );
+      receiverSockets.forEach((receiverSocket) => {
+        socket.to(receiverSocket.id).emit("receivePrivateMessage", newMessage);
+      });
+    }
+    // case of success
     return newMessage;
   } catch (error) {
     console.log(error);

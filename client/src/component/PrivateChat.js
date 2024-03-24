@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-
+import MessageCard from "./messageCard";
 import {
+  getSocket,
   TrackOnlineUser,
   loadPrivateMessages,
   sendPrivateMessage,
@@ -12,6 +13,15 @@ function PrivateChat() {
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const { username } = useParams();
+
+  useEffect(() => {
+    // Get new messages
+    const socket = getSocket();
+    socket.on("receivePrivateMessage", (message) => {
+      message.isNew = true;
+      setMessages([...messages, message]);
+    });
+  }, [messages]);
 
   useEffect(() => {
     // Track if a user is online
@@ -58,14 +68,18 @@ function PrivateChat() {
       {online && <p>Online</p>}
       <h1>Private Chat</h1>
       {messages &&
-        messages.map(({ _id, sender, receiver, date, message }) => {
-          return (
-            <div key={_id}>
-              <p>{date}</p>
-              <p>{message}</p>
-            </div>
-          );
-        })}
+        messages.map((message) => (
+          <MessageCard
+            key={message._id}
+            _id={message._id}
+            sender={message.sender}
+            receiver={message.receiver}
+            date={message.date}
+            message={message.message}
+            isRead={message.isRead}
+            isNew={message.isNew}
+          />
+        ))}
       <form onSubmit={sendMessage}>
         <input
           type="text"

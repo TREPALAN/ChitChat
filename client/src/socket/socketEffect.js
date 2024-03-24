@@ -9,11 +9,6 @@ function Effect() {
   useEffect(() => {
     const socket = socketConnect(token);
 
-    // Get new messages
-    socket.on("receivePrivateMessage", (message) => {
-      alert(message);
-    });
-
     // Handle expired token
     socket.on("invalidToken", () => {
       // Handle expired token

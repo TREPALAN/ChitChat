@@ -43,4 +43,6 @@ export function sendPrivateMessage(receiver, message) {
   });
 }
 
-export default socket;
+export function getSocket() {
+  return socket;
+}
