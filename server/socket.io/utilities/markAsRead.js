@@ -1,6 +1,6 @@
 const PrivateMessage = require("../../models/privateMessage");
 
-function markAsRead(socket, _id, receiver, onlineUsers) {
+function markAsRead(socket, _id, sender, onlineUsers) {
   // Mark as read
   socket.on("markAsRead", async () => {
     try {
@@ -9,13 +9,12 @@ function markAsRead(socket, _id, receiver, onlineUsers) {
         { $set: { isRead: true } }
       );
 
-      // Send private message to  all of the receiver secions
-      if (onlineUsers.some((u) => u.username === receiver)) {
-        const receiverSockets = onlineUsers.filter(
-          (u) => u.username === receiver
-        );
-        receiverSockets.forEach((receiverSocket) => {
-          socket.to(receiverSocket.id).emit(_id + "isRead");
+      // Send private message to  all of the sender secions
+      if (onlineUsers.some((u) => u.username === sender)) {
+        const senderSockets = onlineUsers.filter((u) => u.username === sender);
+        senderSockets.forEach((senderSocket) => {
+          console.log(senderSocket);
+          socket.to(senderSocket.id).emit("receiveIsRead", _id);
         });
       }
     } catch (error) {

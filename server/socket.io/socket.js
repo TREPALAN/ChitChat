@@ -40,9 +40,9 @@ module.exports = (io) => {
       }
     });
 
-    socket.on("markAsRead", async (_id, receiver) => {
+    socket.on("markAsRead", async (_id, sender) => {
       try {
-        markAsRead(socket, _id, receiver, onlineUsers);
+        markAsRead(socket, _id, sender, onlineUsers);
       } catch (error) {
         console.log(error);
       }

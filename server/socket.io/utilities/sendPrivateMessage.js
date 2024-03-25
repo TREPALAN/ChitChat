@@ -19,17 +19,24 @@ async function sendPrivateMessage(
     });
     await newMessage.save();
 
+    // Populate the sender and receiver fields
+    const populatedMessage = await PrivateMessage.findById(
+      newMessage._id
+    ).populate("sender receiver");
+
     // Send private message to  all of the receiver secions
     if (onlineUsers.some((u) => u.username === receiver)) {
       const receiverSockets = onlineUsers.filter(
         (u) => u.username === receiver
       );
       receiverSockets.forEach((receiverSocket) => {
-        socket.to(receiverSocket.id).emit("receivePrivateMessage", newMessage);
+        socket
+          .to(receiverSocket.id)
+          .emit("receivePrivateMessage", populatedMessage);
       });
     }
     // case of success
-    return newMessage;
+    return populatedMessage;
   } catch (error) {
     console.log(error);
   }

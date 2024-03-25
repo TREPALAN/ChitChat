@@ -22,6 +22,18 @@ function PrivateChat() {
       message.isNew = true;
       setMessages([...messages, message]);
     });
+
+    // set Messages as read
+    socket.on("receiveIsRead", (_id) => {
+      const updateOne = messages.map((message) => {
+        if (message._id === _id) {
+          message.isRead = true;
+          message.isNew = false;
+        }
+        return message;
+      });
+      setMessages(updateOne);
+    });
   }, [messages]);
 
   useEffect(() => {
