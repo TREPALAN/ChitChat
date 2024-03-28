@@ -16,14 +16,6 @@ module.exports = (socket, username) => {
         .sort({ date: 1 })
         .populate("sender receiver");
 
-      // Set messages as read
-      messages.forEach((message) => {
-        if (!message.isRead && message.receiver.username === username) {
-          message.isRead = true;
-          message.save();
-        }
-      });
-
       // case of success
       callback(messages);
     } catch (error) {

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TrackOnlineUser } from "../socket/socket";
 import api from "../interceptors/axios";
-import { useHref } from "react-router-dom";
 
 function UserCard({
   id,
@@ -10,6 +9,7 @@ function UserCard({
   isFriend,
   isRequestSent,
   isRequestReceived,
+  hasNewMessage,
 }) {
   const [online, setOnline] = useState(false);
   const [friend, setFriend] = useState(isFriend);
@@ -106,6 +106,8 @@ function UserCard({
                   remove friend
                 </button>
                 <a href={`/privateChat/${username}`}>Chat</a>
+
+                {hasNewMessage && <div className="newMessage">new</div>}
               </div>
             )}
           </>

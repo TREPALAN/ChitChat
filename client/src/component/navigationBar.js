@@ -37,6 +37,12 @@ function NavigationBar() {
                 Friends
               </a>
             </li>
+
+            <li className="nav-item">
+              <a className="nav-link" href="/groups">
+                Groups
+              </a>
+            </li>
             <li className="nav-item">
               <a className="nav-link" href="/addFriend">
                 Add Friend

@@ -18,7 +18,7 @@ function PrivateChat() {
   useEffect(() => {
     // Get new messages
     const socket = getSocket();
-    socket.on("receivePrivateMessage", (message) => {
+    socket.on("receivePrivateMessage", (message, username) => {
       message.isNew = true;
       setMessages([...messages, message]);
     });
@@ -83,7 +83,7 @@ function PrivateChat() {
 
   return (
     <div>
-      {online && <p>Online</p>}
+      {online ? <p>Online</p> : <p>Offline</p>}
       <h1>Private Chat</h1>
       {messages &&
         messages.map((message) => (

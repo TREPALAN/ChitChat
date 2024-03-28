@@ -21,10 +21,11 @@ module.exports = (io) => {
       socket.disconnect();
     }
     console.log("a user connected", user.username);
+    console.log(onlineUsers);
 
     //Require utilities
     require("./utilities/loadPrivateMessages")(socket, user.username);
-    require("./utilities/TrackIsUserOnline")(socket, onlineUsers);
+
     socket.on("sendPrivateMessage", async (receiver, message, callback) => {
       try {
         result = await sendPrivateMessage(
@@ -46,6 +47,14 @@ module.exports = (io) => {
       } catch (error) {
         console.log(error);
       }
+    });
+
+    socket.on("userOnline", (username, callback) => {
+      let isUserOnline = false;
+      if (onlineUsers.some((u) => u.username === username)) {
+        isUserOnline = true;
+      }
+      callback(isUserOnline);
     });
 
     // On disconnection

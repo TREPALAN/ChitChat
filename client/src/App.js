@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Home from "./component/home";
+import Groups from "./component/groups";
 import Login from "./component/login";
 import Register from "./component/register";
 import NavigationBar from "./component/navigationBar";
@@ -25,6 +26,7 @@ function App() {
           <Route path="/allFriends" element={<AllFriends />} />
           <Route path="/friendRequests" element={<FriendRequests />} />
           <Route path="/addFriend" element={<SearchFriend />} />
+          <Route path="/groups" element={<Groups />} />
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>

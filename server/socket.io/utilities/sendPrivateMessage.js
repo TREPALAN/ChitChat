@@ -32,7 +32,7 @@ async function sendPrivateMessage(
       receiverSockets.forEach((receiverSocket) => {
         socket
           .to(receiverSocket.id)
-          .emit("receivePrivateMessage", populatedMessage);
+          .emit("receivePrivateMessage", populatedMessage, username);
       });
     }
     // case of success

@@ -9,7 +9,6 @@ function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
       socket.emit("markAsRead", _id, sender);
     }
     if (!isRead && requestUser === receiver) {
-      console.log(message);
       setAsRead();
     }
   });
