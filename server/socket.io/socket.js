@@ -21,7 +21,6 @@ module.exports = (io) => {
       socket.disconnect();
     }
     console.log("a user connected", user.username);
-    console.log(onlineUsers);
 
     //Require utilities
     require("./utilities/loadPrivateMessages")(socket, user.username);
