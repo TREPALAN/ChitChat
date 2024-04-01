@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../interceptors/axios";
-import GroupsCardList from "./groupsCardList";
+import api from "../../interceptors/axios";
+import GroupsCardList from "../controlers/groupsCardList";
 
 function MyGroups() {
   const [groups, setGroups] = useState([]);
@@ -8,10 +8,10 @@ function MyGroups() {
 
   useEffect(() => {
     async function getGroups() {
-      const response = await api.get("/home/groups");
+      const response = await api.get("/home/myGroups");
       try {
         if (response.status === 200) {
-          setGroups(response.data.groups);
+          setGroups(response.data);
         } else {
           setMessage(response.data.message);
         }
@@ -20,11 +20,11 @@ function MyGroups() {
       }
     }
     getGroups();
-  }, [groups]);
+  }, []);
 
   return (
     <>
-      <h1>My Groups</h1>
+      <h3>My Groups</h3>
       {message && <p>{message}</p>}
       {groups && <GroupsCardList groups={groups} />}
     </>

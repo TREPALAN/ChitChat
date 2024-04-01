@@ -2,7 +2,6 @@ const Group = require("../../models/group");
 
 const searchGroupsRoute = async (req, res) => {
   const groupName = req.query.groupName;
-  console.log(groupName);
   const groups = await Group.find({
     name: { $regex: groupName, $options: "i" },
   });

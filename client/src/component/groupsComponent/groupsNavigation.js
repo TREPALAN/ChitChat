@@ -1,7 +1,7 @@
 import SearchGroups from "./searchGroups";
 import CreateGroup from "./createGroup";
 import MyGroups from "./myGroups";
-import "./css/GroupsNavigation.css";
+import "../css/GroupsNavigation.css";
 
 // Order is Groups > Goups Navigation > (My Groups, Search Groups, Create Group) > GroupCardList > GroupCard
 function GroupsNavigation() {
@@ -45,7 +45,6 @@ function GroupsNavigation() {
           <p
             className="navbar-brand"
             data-page="MyGroups"
-            href="#"
             onClick={handleDivDisplay}
             style={{ cursor: "pointer" }}
           >
@@ -69,7 +68,6 @@ function GroupsNavigation() {
                   className="nav-link active"
                   aria-current="page"
                   data-page="CreateGroup"
-                  href="#"
                   style={{ cursor: "pointer" }}
                   onClick={handleDivDisplay}
                 >
@@ -82,7 +80,6 @@ function GroupsNavigation() {
                   data-page="SearchGroup"
                   onClick={handleDivDisplay}
                   style={{ cursor: "pointer" }}
-                  href="#"
                 >
                   Search Group
                 </p>
@@ -92,9 +89,9 @@ function GroupsNavigation() {
         </div>
       </nav>
 
-      <id id="myGroups">
+      <div id="myGroups">
         <MyGroups />
-      </id>
+      </div>
 
       <div id="createGroup">
         <CreateGroup />

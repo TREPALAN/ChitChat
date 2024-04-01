@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { TrackOnlineUser } from "../socket/socket";
-import api from "../interceptors/axios";
+import { TrackOnlineUser } from "../../socket/socket";
+import api from "../../interceptors/axios";
 
 function UserCard({
   id,

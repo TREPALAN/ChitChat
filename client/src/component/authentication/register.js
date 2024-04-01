@@ -1,6 +1,6 @@
 import { useState } from "react";
-import api from "../interceptors/axios";
-import LoginFunction from "../utils/loginFunction";
+import api from "../../interceptors/axios";
+import LoginFunction from "../../utils/loginFunction";
 
 function Register() {
   const [message, setMessage] = useState("");

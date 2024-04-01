@@ -1,4 +1,4 @@
-import GroupsNavigation from "./groupsNavigation";
+import GroupsNavigation from "../groupsComponent/groupsNavigation";
 
 // Order is Groups > Goups Navigation > (My Groups, Search Groups, Create Group) > GroupCardList > GroupCard
 

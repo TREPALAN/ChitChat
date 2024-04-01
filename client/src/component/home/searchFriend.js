@@ -1,6 +1,6 @@
 import { useState } from "react";
-import api from "../interceptors/axios";
-import UserCardList from "./userCardList";
+import api from "../../interceptors/axios";
+import UserCardList from "../controlers/userCardList";
 function SearchFriend() {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);

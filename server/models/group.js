@@ -15,10 +15,6 @@ const groupSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  profilePicture: {
-    type: String,
-    default: "",
-  },
   admin: [
     {
       type: mongoose.Schema.Types.ObjectId,

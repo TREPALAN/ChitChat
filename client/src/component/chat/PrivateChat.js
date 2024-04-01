@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MessageCard from "./messageCard";
+import MessageCard from "../controlers/messageCard";
 import {
   getSocket,
   TrackOnlineUser,
   loadPrivateMessages,
   sendPrivateMessage,
-} from "../socket/socket";
+} from "../../socket/socket";
 
 function PrivateChat() {
   const [online, setOnline] = useState(false);

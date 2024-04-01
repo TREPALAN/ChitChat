@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { getSocket } from "../socket/socket";
+import { getSocket } from "../../socket/socket";
 function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
   const requestUser = localStorage.getItem("username");
   useEffect(() => {

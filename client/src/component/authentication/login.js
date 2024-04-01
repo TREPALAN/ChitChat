@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LoginFunction from "../utils/loginFunction";
-import "../component/css/userForm.css";
+import LoginFunction from "../../utils/loginFunction";
+import "../css/userForm.css";
 
 function Login() {
   const [message, setMessage] = useState("");

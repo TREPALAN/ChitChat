@@ -1,5 +1,5 @@
-import logout from "../utils/logoutFunction";
-import "../component/css/navigationBar.css";
+import logout from "../../utils/logoutFunction";
+import "../css/navigationBar.css";
 
 const username = localStorage.getItem("username");
 

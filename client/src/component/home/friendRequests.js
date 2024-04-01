@@ -1,31 +1,33 @@
-import api from "../interceptors/axios";
-import UserCardList from "./userCardList";
-import { useState, useEffect } from "react";
-function AllFriends() {
+import { useEffect, useState } from "react";
+import api from "../../interceptors/axios";
+import UserCardList from "../controlers/userCardList";
+
+function FriendRequests() {
   const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("...");
+
   useEffect(() => {
     // Get all friends
     async function getUsers() {
-      const response = await api.get("home/allFriends");
+      const response = await api.get("home/friendRequests");
       if (response.status === 200) {
         setUsers(response.data);
-        setMessage("");
+        setMessage("...");
       } else {
         setMessage(response.data.message);
         setUsers([]);
       }
     }
     getUsers();
-  }, []);
-
+  });
   return (
     <div>
-      <h1>All Friends</h1>
+      <h1>O Friends</h1>
+
       {message && <p>{message}</p>}
       {users && <UserCardList users={users} />}
     </div>
   );
 }
 
-export default AllFriends;
+export default FriendRequests;

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import api from "../interceptors/axios";
-import GroupsCardList from "./groupsCardList";
+import api from "../../interceptors/axios";
+import GroupsCardList from "../controlers/groupsCardList";
 
 function SearchGroups() {
   const [groups, setGroups] = useState([]);
@@ -15,7 +15,7 @@ function SearchGroups() {
     try {
       if (response.status === 200) {
         setMessage("");
-        setGroups(response.data.groups);
+        setGroups(response.data);
       } else {
         setMessage(response.data.message);
         setGroups([]);
@@ -27,7 +27,7 @@ function SearchGroups() {
 
   return (
     <>
-      <h1>Search Groups</h1>
+      <h3>Search Groups</h3>
       <div className="GroupSearchBar">
         <form
           className="input-group input-group-lg"

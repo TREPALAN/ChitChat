@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import UserCard from "./userCard";
-import { getSocket } from "../socket/socket";
-import "../component/css/userCardList.css";
+import { getSocket } from "../../socket/socket";
+import "../css/userCardList.css";
 
 function UserCardList({ users }) {
   const [hasNewMessage, setHasNewMessage] = useState([]);
