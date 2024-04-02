@@ -1,11 +1,18 @@
 const { query, validationResult } = require("express-validator");
+const User = require("../../models/user");
 
 module.exports = [
   query("username")
     .notEmpty()
     .escape()
     .isString()
-    .withMessage("username is required"),
+    .withMessage("username is required")
+    .custom(async (value) => {
+      const user = await User.findOne({ username: value });
+      if (!user) {
+        throw new Error("User not found");
+      }
+    }),
   (req, res, next) => {
     const result = validationResult(req);
     if (result.isEmpty()) {

@@ -5,9 +5,6 @@ async function sendRequest(req, res) {
 
   const user = await User.findOne({ username });
   const requestUser = await User.findOne({ _id: req.user._id });
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
-  }
 
   try {
     if (requestUser.friends.includes(user._id)) {

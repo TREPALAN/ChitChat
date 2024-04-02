@@ -9,6 +9,9 @@ const createGroup = async (req, res) => {
   //   Check if members exist
   await Promise.all(
     members.map(async (member) => {
+      if (member === req.user._id) {
+        return;
+      }
       const user = await GetUser(member, null, null);
       if (user) {
         membersToAdd.push(user._id.toString());

@@ -1,17 +1,41 @@
 const { body, validationResult } = require("express-validator");
+const User = require("../../models/user");
 
 module.exports = [
   body("name")
     .notEmpty()
     .withMessage("name is required")
-    .escape()
     .isString()
-    .withMessage("name must be a string"),
-  body("description")
-    .escape()
-    .isString()
-    .withMessage("description must be a string"),
-  body("members").isArray().withMessage("members must be an array"),
+    .withMessage("name must be a string")
+    .custom((value) => {
+      const dangerousChars = /[\`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
+      if (dangerousChars.test(value)) {
+        throw new Error("name cannot contain especial characters");
+      }
+
+      return true;
+    }),
+
+  body("description").isString().withMessage("description must be a string"),
+  body("members")
+    .isArray()
+    .withMessage("members must be an array")
+    .customSanitizer((value) => {
+      const uniqueMembers = new Set(value);
+      return Array.from(uniqueMembers);
+    })
+    .custom(async (value) => {
+      const dangerousChars = /[\`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi;
+      const isDangerous = value.some((member) => dangerousChars.test(member));
+      if (isDangerous) {
+        throw new Error("members cannot contain especial characters");
+      }
+      const users = await User.find({ username: { $in: value } });
+
+      if (users.length !== value.length) {
+        throw new Error("members must be valid users");
+      }
+    }),
   body("members.*")
     .isString()
     .withMessage("members must be an array of strings"),
