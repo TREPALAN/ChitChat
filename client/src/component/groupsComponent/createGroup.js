@@ -26,7 +26,8 @@ function CreateGroup() {
     });
     try {
       if (response.status === 200) {
-        console.log(response.data);
+        const group = response.data.group;
+        window.location.href = `/groupChat/${group._id}`;
       } else {
         setMessage(response.data.message);
       }

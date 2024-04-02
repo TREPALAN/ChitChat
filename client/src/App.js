@@ -1,17 +1,18 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Home from "./component/home/home";
-import Groups from "./component/home/groups";
-import Login from "./component/authentication/login";
-import Register from "./component/authentication/register";
-import NavigationBar from "./component/navigationBar/navigationBar";
-import SearchFriend from "./component/home/searchFriend";
 import AllFriends from "./component/home/allFriends";
-import PrivateChat from "./component/chat/PrivateChat";
-import FriendRequests from "./component/home/friendRequests";
-import isLogedin from "./utils/isLogedin";
-import ProtectedRoutes from "./auth/ProtectedRoutes";
 import Effect from "./socket/socketEffect";
+import FriendRequests from "./component/home/friendRequests";
+import GroupChat from "./component/chat/groupChat";
+import Groups from "./component/home/groups";
+import Home from "./component/home/home";
+import isLogedin from "./utils/isLogedin";
+import Login from "./component/authentication/login";
+import NavigationBar from "./component/navigationBar/navigationBar";
+import PrivateChat from "./component/chat/PrivateChat";
+import ProtectedRoutes from "./auth/ProtectedRoutes";
+import Register from "./component/authentication/register";
+import SearchUser from "./component/home/searchUser";
 function App() {
   return (
     <BrowserRouter>
@@ -25,8 +26,9 @@ function App() {
           <Route path="/privateChat/:username" element={<PrivateChat />} />
           <Route path="/allFriends" element={<AllFriends />} />
           <Route path="/friendRequests" element={<FriendRequests />} />
-          <Route path="/addFriend" element={<SearchFriend />} />
+          <Route path="/addFriend" element={<SearchUser />} />
           <Route path="/groups" element={<Groups />} />
+          <Route path="/groupChat/:groupId" element={<GroupChat />} />
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>

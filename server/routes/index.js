@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const allFriends = require("../controllers/index/allFriends");
-const searchFriend = require("../controllers/index/searchFriend");
+const searchUserRoute = require("../controllers/index/searchUser");
+const searchUserMD = require("./middlewares/searchUserMD");
 const friendRequests = require("../controllers/index/friendRequests");
-const searchFriendMiddleware = require("./middlewares/searchFriendMD");
 const myGroups = require("../controllers/index/myGroups");
 const searchGroups = require("../controllers/index/searchGoups");
 const searchGroupsMiddleware = require("./middlewares/searchGroupsMD");
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
   res.json({ message: "Hello from Alan!" });
 });
 router.get("/friendRequests", friendRequests);
-router.get("/searchFriend", searchFriendMiddleware, searchFriend);
+router.get("/searchUser", searchUserMD, searchUserRoute);
 router.get("/myGroups", myGroups);
 router.post("/createGroup", createGroupMiddleware, creteGroup);
 router.get("/searchGroups", searchGroupsMiddleware, searchGroups);

@@ -43,10 +43,10 @@ function GroupsNavigation() {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <p
+            id="myGroupsLink"
             className="navbar-brand"
             data-page="MyGroups"
             onClick={handleDivDisplay}
-            style={{ cursor: "pointer" }}
           >
             My Groups
           </p>
@@ -68,7 +68,7 @@ function GroupsNavigation() {
                   className="nav-link active"
                   aria-current="page"
                   data-page="CreateGroup"
-                  style={{ cursor: "pointer" }}
+                  id="createGroupLink"
                   onClick={handleDivDisplay}
                 >
                   Create Group
@@ -79,7 +79,7 @@ function GroupsNavigation() {
                   className="nav-link"
                   data-page="SearchGroup"
                   onClick={handleDivDisplay}
-                  style={{ cursor: "pointer" }}
+                  id="searchGroupLink"
                 >
                   Search Group
                 </p>

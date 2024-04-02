@@ -12,7 +12,6 @@ function markAsRead(socket, _id, sender, onlineUsers) {
       // Send private message to  all of the sender secions
       if (onlineUsers.some((u) => u.username === sender)) {
         const senderSockets = onlineUsers.filter((u) => u.username === sender);
-        console.log("senderSockets", senderSockets);
         senderSockets.forEach((senderSocket) => {
           socket.to(senderSocket.id).emit("receiveIsRead", _id);
         });

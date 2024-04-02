@@ -21,7 +21,8 @@ async function LoginFunction({ username, password }) {
       }
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("refresh_token", response.data.refreshToken);
-      localStorage.setItem("username", username);
+      localStorage.setItem("username", response.data.user.username);
+      localStorage.setItem("id", response.data.user._id);
       message = "Login successful";
       return { code: 200, message };
     } else {

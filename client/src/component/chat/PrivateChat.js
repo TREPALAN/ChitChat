@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MessageCard from "../controlers/messageCard";
+import MessageCard from "../cards/messageCard";
 import {
   getSocket,
   TrackOnlineUser,

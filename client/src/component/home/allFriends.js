@@ -1,5 +1,5 @@
 import api from "../../interceptors/axios";
-import UserCardList from "../controlers/userCardList";
+import UserCardList from "../cards/userCardList";
 import { useState, useEffect } from "react";
 function AllFriends() {
   const [users, setUsers] = useState([]);

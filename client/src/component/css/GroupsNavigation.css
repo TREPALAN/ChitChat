@@ -5,3 +5,15 @@
 #createGroup {
   display: none;
 }
+
+#myGroupsLink {
+  cursor: pointer;
+}
+
+#searchGroupLink {
+  cursor: pointer;
+}
+
+#createGroupLink {
+  cursor: pointer;
+}

@@ -9,7 +9,7 @@ const login = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  const user = await User.findOne({ username });
+  const user = await User.findOne({ username }).lean();
   if (!user) {
     return res.status(401).json({ message: "Invalid credentials" });
   }
@@ -32,7 +32,7 @@ const login = async (req, res) => {
       expiresIn: "7d",
     }
   );
-  res.json({ message: "Login successful", token, refreshToken, username });
+  res.json({ message: "Login successful", token, refreshToken, user });
 };
 
 module.exports = login;

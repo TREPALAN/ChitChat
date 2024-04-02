@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../../interceptors/axios";
-import UserCardList from "../controlers/userCardList";
-function SearchFriend() {
+import UserCardList from "../cards/userCardList";
+function SearchUser() {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
@@ -12,7 +12,7 @@ function SearchFriend() {
       setMessage("Please enter a username");
       return;
     }
-    const response = await api.get("home/SearchFriend", {
+    const response = await api.get("home/SearchUser", {
       params: { username: search },
     });
     if (response.status === 200) {
@@ -48,4 +48,4 @@ function SearchFriend() {
   );
 }
 
-export default SearchFriend;
+export default SearchUser;

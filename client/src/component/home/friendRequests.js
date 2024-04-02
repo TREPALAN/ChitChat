@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../interceptors/axios";
-import UserCardList from "../controlers/userCardList";
+import UserCardList from "../cards/userCardList";
 
 function FriendRequests() {
   const [users, setUsers] = useState([]);

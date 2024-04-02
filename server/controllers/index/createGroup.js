@@ -26,7 +26,13 @@ const createGroup = async (req, res) => {
 
   try {
     await group.save();
-    return res.json({ message: "Group created successfully", group });
+    const groupData = await Group.findOne({ _id: group._id })
+      .lean()
+      .populate("admin");
+    return res.json({
+      message: "Group created successfully",
+      group: groupData,
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

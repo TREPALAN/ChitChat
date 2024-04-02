@@ -1,5 +1,5 @@
-const PrivateMessage = require("../../models/privateMessage");
-const User = require("../../models/user");
+const PrivateMessage = require("../../../models/privateMessage");
+const User = require("../../../models/user");
 
 async function sendPrivateMessage(req, res) {
   const { receiver, message } = req.body;

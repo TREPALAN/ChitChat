@@ -10,7 +10,6 @@ async function allFriendsRoute(req, res) {
   if (!friends) {
     return res.status(404).json({ message: "No friends found" });
   }
-
   res.json(friends);
 }
 
