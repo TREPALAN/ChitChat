@@ -22,18 +22,6 @@ export function TrackOnlineUser(username) {
   });
 }
 
-export function loadPrivateMessages(receiver) {
-  return new Promise((resolve, reject) => {
-    // Load private messages
-    socket.emit("loadPrivateMessages", receiver, (result) => {
-      resolve(result);
-    });
-    socket.on("invalidToken", () => {
-      window.location.reload();
-    });
-  });
-}
-
 export function sendPrivateMessage(receiver, message) {
   return new Promise((resolve, reject) => {
     // Send private message

@@ -22,9 +22,6 @@ module.exports = (io) => {
     }
     console.log("a user connected", user.username);
 
-    //Require utilities
-    require("./utilities/loadPrivateMessages")(socket, user.username);
-
     socket.on("sendPrivateMessage", async (receiver, message, callback) => {
       try {
         result = await sendPrivateMessage(

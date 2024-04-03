@@ -11,7 +11,7 @@ function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
     if (!isRead && requestUser === receiver) {
       setAsRead();
     }
-  });
+  }, []);
   return (
     <>
       {requestUser === receiver ? (

@@ -1,43 +1,24 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MessageCard from "../cards/messageCard";
-import {
-  getSocket,
-  TrackOnlineUser,
-  loadPrivateMessages,
-  sendPrivateMessage,
-} from "../../socket/socket";
+import MessageCardList from "../cards/messageCardList";
+import api from "../../interceptors/axios";
+import { TrackOnlineUser, sendPrivateMessage } from "../../socket/socket";
 
 function PrivateChat() {
-  const [online, setOnline] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [online, setOnline] = useState(false);
   const [messages, setMessages] = useState([]);
   const [error, setError] = useState("");
   const { username } = useParams();
 
   useEffect(() => {
-    // Get new messages
-    const socket = getSocket();
-    socket.on("receivePrivateMessage", (message, username) => {
-      message.isNew = true;
-      setMessages([...messages, message]);
-    });
-
-    // set Messages as read
-    socket.on("receiveIsRead", (_id) => {
-      const updateOne = messages.map((message) => {
-        if (message._id === _id) {
-          message.isRead = true;
-          message.isNew = false;
-        }
-        return message;
-      });
-      setMessages(updateOne);
-    });
+    // Scroll to the bottom after messages are mapped
+    window.scrollTo(0, document.body.scrollHeight);
   }, [messages]);
 
   useEffect(() => {
     // Track if a user is online
+
     async function checkOnline() {
       const result = await TrackOnlineUser(username);
       setOnline(result);
@@ -48,12 +29,15 @@ function PrivateChat() {
 
     // Load messages
     async function loadMessages() {
-      const result = await loadPrivateMessages(username);
+      const result = await api.get("/chat/loadPrivateMessages/", {
+        params: { username },
+        page: 1,
+      });
       try {
-        if (result.message === "Socket disconnected") {
-          // Handle socket disconnected
+        if (result.status === 200) {
+          setMessages(result.data.messages);
         } else {
-          setMessages(result);
+          console.log(result.data.message);
         }
       } catch (error) {
         console.log(error);
@@ -77,7 +61,7 @@ function PrivateChat() {
 
     event.target.reset();
     const MESSAGE = result.result;
-    setMessages([...messages, MESSAGE]);
+    setMessages([MESSAGE, ...messages]);
     setNewMessage("");
   }
 
@@ -85,19 +69,10 @@ function PrivateChat() {
     <div>
       {online ? <p>Online</p> : <p>Offline</p>}
       <h1>Private Chat</h1>
-      {messages &&
-        messages.map((message) => (
-          <MessageCard
-            key={message._id}
-            _id={message._id}
-            sender={message.sender.username}
-            receiver={message.receiver.username}
-            date={message.date}
-            message={message.message}
-            isRead={message.isRead}
-            isNew={message.isNew}
-          />
-        ))}
+      {/* Display messages */}
+      {messages && <MessageCardList messages={messages} />}
+
+      {/* Send a message */}
       <form onSubmit={sendMessage}>
         <input
           type="text"

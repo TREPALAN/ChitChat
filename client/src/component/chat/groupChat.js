@@ -5,15 +5,22 @@ import api from "../../interceptors/axios";
 
 function GroupChat() {
   const [Group, setGroup] = useState({});
+  const [Messages, setMessages] = useState([]);
   const { groupId } = useParams();
+
   useEffect(() => {
+    // Scroll to the bottom after messages are mapped
+    window.scrollTo(0, document.body.scrollHeight);
+
     async function getGroup() {
+      // Load messages and group data
       try {
-        const response = await api.get("/chat/getGroup/", {
+        const response = await api.get("/chat/groupChat/", {
           params: { groupId },
         });
         if (response.status === 200) {
-          setGroup(response.data);
+          setGroup(response.data.group);
+          setMessages(response.data.messages);
         } else {
           console.log(response.data.message);
         }
@@ -22,9 +29,17 @@ function GroupChat() {
       }
     }
     getGroup();
-  }, []);
+  }, [groupId, Group]);
 
-  return <h1>Group Chat</h1>;
+  return (
+    <>
+      <h1>{Group.name}</h1>
+
+      <div className="card-group">
+        <MessageCard groupId={groupId} messages={Messages} />
+      </div>
+    </>
+  );
 }
 
 export default GroupChat;

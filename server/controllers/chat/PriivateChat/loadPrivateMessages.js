@@ -1,8 +1,8 @@
-const PrivateMessage = require("../../models/privateMessage");
-const User = require("../../models/user");
+const PrivateMessage = require("../../../models/privateMessage");
+const User = require("../../../models/user");
 
 async function loadPrivateMessages(req, res) {
-  const { username } = req.query;
+  const { username, page } = req.query;
   const requestUserusername = req.user.username;
 
   try {
@@ -13,7 +13,11 @@ async function loadPrivateMessages(req, res) {
         { sender: user._id, receiver: requestUser._id },
         { sender: requestUser._id, receiver: user._id },
       ],
-    }).sort({ date: -1 });
+    })
+      .sort({ date: -1 })
+      .skip(page * 10) // 10 messages per page
+      .limit(10)
+      .exec();
 
     // case of success
     res.json({ messages });
