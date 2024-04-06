@@ -3,7 +3,7 @@ import getRefreshToken from "../utils/getRefreshToken";
 import logout from "../utils/logoutFunction";
 import { socketConnect } from "./socket";
 
-function Effect() {
+function SocketHook() {
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -32,4 +32,4 @@ function Effect() {
   return null;
 }
 
-export default Effect;
+export default SocketHook;

@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import AllFriends from "./component/home/allFriends";
-import Effect from "./socket/socketEffect";
 import FriendRequests from "./component/home/friendRequests";
 import GroupChat from "./component/chat/groupChat";
 import Groups from "./component/home/groups";
@@ -13,11 +12,13 @@ import PrivateChat from "./component/chat/PrivateChat";
 import ProtectedRoutes from "./auth/ProtectedRoutes";
 import Register from "./component/authentication/register";
 import SearchUser from "./component/home/searchUser";
+import SoccketHook from "./socket/socketHook";
+
 function App() {
   return (
     <BrowserRouter>
       {isLogedin() ? <NavigationBar /> : null}
-      {isLogedin() ? <Effect /> : null}
+      {isLogedin() ? <SoccketHook /> : null}
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

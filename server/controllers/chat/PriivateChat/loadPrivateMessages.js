@@ -2,7 +2,7 @@ const PrivateMessage = require("../../../models/privateMessage");
 const User = require("../../../models/user");
 
 async function loadPrivateMessages(req, res) {
-  const { username, page } = req.query;
+  const { username, currentPage, paginatePerPage } = req.query;
   const requestUserusername = req.user.username;
 
   try {
@@ -15,12 +15,24 @@ async function loadPrivateMessages(req, res) {
       ],
     })
       .sort({ date: -1 })
-      .skip(page * 10) // 10 messages per page
-      .limit(10)
+      .skip(currentPage * paginatePerPage) // 10 messages per page
+      .limit(paginatePerPage)
       .exec();
 
+    // Get total pages (executed only once)
+    let totalpages;
+    if (currentPage == 0) {
+      const count = await PrivateMessage.countDocuments({
+        $or: [
+          { sender: user._id, receiver: requestUser._id },
+          { sender: requestUser._id, receiver: user._id },
+        ],
+      });
+      totalpages = Math.ceil(count / paginatePerPage);
+    }
+
     // case of success
-    res.json({ messages });
+    res.json({ messages: messages.reverse(), totalpages });
 
     // case of error
   } catch (error) {

@@ -1,11 +1,16 @@
 import { useParams } from "react-router-dom";
-import MessageCard from "../cards/messageCard";
+import MessageCardList from "../cards/messageCardList";
 import { useEffect, useState } from "react";
 import api from "../../interceptors/axios";
 
 function GroupChat() {
+  // Set paginate per page
+  const paginatePerPage = 20;
+
   const [Group, setGroup] = useState({});
   const [Messages, setMessages] = useState([]);
+  const [page, setPage] = useState(1);
+  const [totalpages, setTotalpages] = useState(1);
   const { groupId } = useParams();
 
   useEffect(() => {
@@ -16,7 +21,7 @@ function GroupChat() {
       // Load messages and group data
       try {
         const response = await api.get("/chat/groupChat/", {
-          params: { groupId },
+          params: { groupId, paginatePerPage },
         });
         if (response.status === 200) {
           setGroup(response.data.group);
@@ -29,14 +34,24 @@ function GroupChat() {
       }
     }
     getGroup();
-  }, [groupId, Group]);
+  }, []);
 
   return (
     <>
       <h1>{Group.name}</h1>
 
-      <div className="card-group">
-        <MessageCard groupId={groupId} messages={Messages} />
+      <div>
+        {totalpages > page ? (
+          <small
+            onClick={() => setPage(page + 1)}
+            style={{ cursor: "pointer" }}
+          >
+            Load more
+          </small>
+        ) : (
+          <small>No more messages</small>
+        )}
+        <MessageCardList messages={Messages} />
       </div>
     </>
   );

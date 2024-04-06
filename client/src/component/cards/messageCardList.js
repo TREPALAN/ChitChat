@@ -34,20 +34,20 @@ function MessageCardList({ messages }) {
 
   return (
     <div>
-      {allMessages
-        .map((message) => (
+      {allMessages.map(
+        ({ _id, sender, receiver, date, message, isRead, isNew }) => (
           <MessageCard
-            key={message._id}
-            _id={message._id}
-            sender={message.sender.username}
-            receiver={message.receiver.username}
-            date={message.date}
-            message={message.message}
-            isRead={message.isRead}
-            isNew={message.isNew}
+            key={_id}
+            _id={_id}
+            sender={sender.username}
+            receiver={receiver.username}
+            date={date}
+            message={message}
+            isRead={isRead}
+            isNew={isNew}
           />
-        ))
-        .reverse()}
+        )
+      )}
     </div>
   );
 }
