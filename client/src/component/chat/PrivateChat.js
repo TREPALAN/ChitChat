@@ -51,6 +51,17 @@ function PrivateChat() {
     loadMessages();
   }, [username]);
 
+  useEffect(() => {
+    const socket = getSocket();
+    socket.on("receivePrivateMessage", (message, username) => {
+      setMessages({ type: "messageReceived", messages: message });
+    });
+
+    socket.on("receiveIsRead", (_id) => {
+      setMessages({ type: "setIsRead", id: _id });
+    });
+  }, []);
+
   async function loadOldMessages() {
     const currentPage = page.current + 1;
     page.current = currentPage;
@@ -60,7 +71,7 @@ function PrivateChat() {
     });
     try {
       if (result.status === 200) {
-        setMessages({ type: "loadOldMessage", message: result.data.messages });
+        setMessages({ type: "loadOldMessage", messages: result.data.messages });
       } else {
         console.log(result.data.message);
       }
@@ -68,17 +79,6 @@ function PrivateChat() {
       console.log(error);
     }
   }
-
-  useEffect(() => {
-    const socket = getSocket();
-    socket.on("receivePrivateMessage", (message, username) => {
-      setMessages({ type: "messageReceived", message: message });
-    });
-
-    socket.on("receiveIsRead", (_id) => {
-      setMessages({ type: "setIsRead", messages: _id });
-    });
-  }, []);
 
   async function sendMessage(event) {
     event.preventDefault();
@@ -90,7 +90,7 @@ function PrivateChat() {
     const result = await sendPrivateMessage(username, newMessage);
 
     event.target.reset();
-    setMessages({ type: "messageSent", message: result.result });
+    setMessages({ type: "messageSent", messages: result.result });
     setNewMessage("");
   }
 

@@ -1,17 +1,5 @@
-import { useEffect } from "react";
-import { getSocket } from "../../socket/socket";
 function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
   const requestUser = localStorage.getItem("username");
-
-  function setAsRead() {
-    const socket = getSocket();
-    console.log("set as read");
-    socket.emit("markAsRead", _id, sender);
-  }
-  if (!isRead && requestUser === receiver) {
-    setAsRead();
-  }
-
   return (
     <>
       {requestUser === receiver ? (

@@ -17,6 +17,7 @@ async function loadPrivateMessages(req, res) {
       .sort({ date: -1 })
       .skip(currentPage * paginatePerPage) // 10 messages per page
       .limit(paginatePerPage)
+      .populate("sender receiver")
       .exec();
 
     // Get total pages (executed only once)

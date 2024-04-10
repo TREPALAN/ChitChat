@@ -39,7 +39,7 @@ module.exports = (io) => {
 
     socket.on("markAsRead", async (_id, sender) => {
       try {
-        markAsRead(socket, _id, sender, onlineUsers);
+        await markAsRead(socket, _id, sender, onlineUsers);
       } catch (error) {
         console.log(error);
       }
@@ -52,7 +52,6 @@ module.exports = (io) => {
       }
       callback(isUserOnline);
     });
-
     // On disconnection
     socket.on("disconnect", () => {
       console.log("user disconnected", user.username);
