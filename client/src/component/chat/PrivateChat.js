@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import MessageCardList from "../cards/messageCardList";
 import api from "../../interceptors/axios";
 import { sendPrivateMessage, getSocket } from "../../socket/socket";
-import MessagesReducer from "../../reducers/messagesReducer";
+import MessagesReducer from "../../reducers/PrivateMessagesReducer";
 import useIsUserOnline from "../../utils/isUserOnlineHook";
 
 function PrivateChat() {
@@ -49,9 +49,8 @@ function PrivateChat() {
       }
     }
     loadMessages();
-  }, [username]);
 
-  useEffect(() => {
+    // Listen for new messages
     const socket = getSocket();
     socket.on("receivePrivateMessage", (message, username) => {
       setMessages({ type: "messageReceived", messages: message });
@@ -60,14 +59,14 @@ function PrivateChat() {
     socket.on("receiveIsRead", (_id) => {
       setMessages({ type: "setIsRead", id: _id });
     });
-  }, []);
+  }, [username]);
 
   async function loadOldMessages() {
-    const currentPage = page.current + 1;
-    page.current = currentPage;
+    const nextPage = page.current + 1;
+    page.current = nextPage;
 
     const result = await api.get("/chat/loadPrivateMessages/", {
-      params: { username, currentPage, paginatePerPage },
+      params: { username, nextPage, paginatePerPage },
     });
     try {
       if (result.status === 200) {
@@ -109,7 +108,11 @@ function PrivateChat() {
             <small>No more messages </small>
           )}
           {messages.old && <MessageCardList messages={messages.old} />}
-          <MessageCardList messages={messages.messages} />
+
+          {messages.messages && (
+            <MessageCardList messages={messages.messages} />
+          )}
+
           {messages.new && <MessageCardList messages={messages.new} />}
         </>
       )}

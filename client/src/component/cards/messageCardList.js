@@ -9,7 +9,7 @@ function MessageCardList({ messages }) {
             key={_id}
             _id={_id}
             sender={sender.username}
-            receiver={receiver.username}
+            receiver={receiver?.username} // there is no receiver for group messages
             date={date}
             message={message}
             isRead={isRead}

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const sendPrivateMessage = require("./utilities/sendPrivateMessage");
+const sendGroupMessage = require("./utilities/sendGroupMessage");
 const markAsRead = require("./utilities/markAsRead");
 
 // Track online users
@@ -52,6 +53,26 @@ module.exports = (io) => {
       }
       callback(isUserOnline);
     });
+
+    socket.on("joinRoom", (room) => {
+      // Join a Group room
+      socket.join(room);
+    });
+
+    socket.on("sendGroupMessage", async (group, message, callback) => {
+      try {
+        result = await sendGroupMessage(socket, user.username, group, message);
+        callback({ result });
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    socket.on("leaveRoom", (room) => {
+      // Leave a Group room
+      socket.leave(room);
+    });
+
     // On disconnection
     socket.on("disconnect", () => {
       console.log("user disconnected", user.username);

@@ -10,13 +10,14 @@ const groupChat = async (req, res) => {
     })
       .sort({ date: -1 })
       .limit(paginatePerPage)
+      .populate("sender")
       .exec();
 
     // Get total pages
     const count = await Message.countDocuments({ group: groupId });
     const totalpages = Math.ceil(count / paginatePerPage);
 
-    res.json({ group, messages, totalpages });
+    res.json({ group, messages: messages.reverse(), totalpages });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

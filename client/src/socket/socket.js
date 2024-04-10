@@ -22,6 +22,15 @@ export function TrackOnlineUser(username) {
   });
 }
 
+export function sendGroupMessage(group, message) {
+  return new Promise((resolve, reject) => {
+    // Send group message
+    socket.emit("sendGroupMessage", group, message, (result) => {
+      resolve(result);
+    });
+  });
+}
+
 export function sendPrivateMessage(receiver, message) {
   return new Promise((resolve, reject) => {
     // Send private message
