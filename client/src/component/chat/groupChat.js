@@ -3,13 +3,18 @@ import MessageCardList from "../cards/messageCardList";
 import { useEffect, useState, useReducer, useRef } from "react";
 import api from "../../interceptors/axios";
 import MessagesReducer from "../../reducers/GroupMessagesReducer";
+import EditGroup from "./editGroup";
 import { getSocket, sendGroupMessage } from "../../socket/socket";
+import "../css/groupChat.css";
 
 function GroupChat() {
+  const requestUserId = useRef(localStorage.getItem("id"));
   // Set paginate per page
   const paginatePerPage = 20;
 
   const [Group, setGroup] = useState({});
+  const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useReducer(MessagesReducer, []);
   const [newMessage, setNewMessage] = useState("");
   const page = useRef(null);
@@ -37,7 +42,14 @@ function GroupChat() {
         const response = await api.get("/chat/groupChat/", {
           params: { groupId, paginatePerPage },
         });
+        setLoading(false);
         if (response.status === 200) {
+          if (response.data.code === 400) {
+            // If user is not in this group
+            setError(response.data.message);
+            return;
+          }
+
           page.current = 0;
           setGroup(response.data.group);
           totalpages.current = response.data.totalpages;
@@ -107,33 +119,68 @@ function GroupChat() {
     }
   }
 
-  return (
-    <>
-      <h1>{Group.name}</h1>
-
+  if (error) {
+    // If error
+    return <div>{error}</div>;
+  } else if (loading) {
+    // If loading
+    return (
       <div>
-        {totalpages.current > page.current ? (
-          <small onClick={loadMessages} style={{ cursor: "pointer" }}>
-            Load more
-          </small>
-        ) : (
-          <small>No more messages</small>
-        )}
-        {messages.old && <MessageCardList messages={messages.old} />}
-        {messages.messages && <MessageCardList messages={messages.messages} />}
-        {messages.new && <MessageCardList messages={messages.new} />}
+        <div className="d-flex align-items-center">
+          <strong>Loading...</strong>
+          <div
+            className="spinner-border ml-auto"
+            role="status"
+            aria-hidden="true"
+          ></div>
+        </div>
       </div>
+    );
+  } else {
+    return (
+      // Render group chat
+      <>
+        <h1>{Group.name}</h1>
+        {Group.admin.includes(requestUserId.current) && (
+          // If user is admin
+          <>
+            <button onClick={() => setIsEditing(true)}>Edit Group</button>
 
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form>
-    </>
-  );
+            <div className="editGroup"></div>
+            <EditGroup
+              group={Group}
+              trigger={isEditing}
+              setTrigger={setIsEditing}
+              setGroup={setGroup}
+            />
+          </>
+        )}
+
+        <div>
+          {totalpages.current > page.current ? (
+            <small onClick={loadMessages} style={{ cursor: "pointer" }}>
+              Load more
+            </small>
+          ) : (
+            <small>No more messages</small>
+          )}
+          {messages.old && <MessageCardList messages={messages.old} />}
+          {messages.messages && (
+            <MessageCardList messages={messages.messages} />
+          )}
+          {messages.new && <MessageCardList messages={messages.new} />}
+        </div>
+
+        <form onSubmit={sendMessage}>
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button type="submit">Send</button>
+        </form>
+      </>
+    );
+  }
 }
-
 export default GroupChat;

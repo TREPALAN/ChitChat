@@ -30,6 +30,7 @@ function App() {
           <Route path="/addFriend" element={<SearchUser />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/groupChat/:groupId" element={<GroupChat />} />
+
           <Route path="/" element={<Home />} />
         </Route>
       </Routes>
