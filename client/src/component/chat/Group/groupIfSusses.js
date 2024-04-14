@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import api from "../../../interceptors/axios";
 import MessageCardList from "../../cards/messageCardList";
 import EditGroup from "./editGroup";
-import GroupMenbers from "./groupMenbers";
+import GroupMembers from "./groupMembers";
 import { sendGroupMessage } from "../../../socket/socket";
 
 function GroupIFSusses(props) {
@@ -87,9 +87,11 @@ function GroupIFSusses(props) {
         </>
       )}
       <button onClick={() => setMenbersTrigger(true)}>Group Members</button>
-      <GroupMenbers
+      <GroupMembers
         trigger={menbersTrigger}
+        groupId={groupId}
         group={Group}
+        setGroup={setGroup}
         setTrigger={setMenbersTrigger}
         isAdmin={isAdmin}
       />

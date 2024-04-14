@@ -1,16 +1,18 @@
-const { useState } = require("react");
-const { useParams } = require("react-router-dom");
-const api = require("../../../interceptors/axios");
+import { useState } from "react";
+import api from "../../../interceptors/axios";
+import { useParams } from "react-router-dom";
 
-function GroupÍfError({ error }) {
-  const [isRequestedToJoin, setIsRequestedToJoin] = useState(false);
+function GroupÍfError(props) {
+  const [isRequestedToJoin, setIsRequestedToJoin] = useState(
+    props.error.requested
+  );
+  const message = props.error.message;
+
   const { groupId } = useParams();
 
   async function RequestToJoin() {
     try {
-      const result = await api.post("/chat/requestToJoinGroup/", {
-        groupId,
-      });
+      const result = await api.put("/chat/requestToJoin", { groupId });
       if (result.status === 200) {
         setIsRequestedToJoin(true);
       } else {
@@ -23,7 +25,7 @@ function GroupÍfError({ error }) {
 
   return (
     <>
-      {error}
+      {message}
       <br />
       {isRequestedToJoin ? (
         <p>You have already requested to join this group</p>

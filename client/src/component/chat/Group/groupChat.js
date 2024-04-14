@@ -34,7 +34,7 @@ function GroupChat() {
         if (response.status === 200) {
           if (response.data.code === 400) {
             // If user is not in this group
-            setError(response.data.message);
+            setError(response.data);
             return;
           }
           setGroup(response.data.group);
@@ -69,7 +69,7 @@ function GroupChat() {
 
   ///// returing jsx/////
   if (error) {
-    // If error (I'm assuming the user is not in the group)
+    // If error obs: I'm assuming the user is not in the group
     return <GroupÍfError error={error} />;
   } else if (loading) {
     // If loading

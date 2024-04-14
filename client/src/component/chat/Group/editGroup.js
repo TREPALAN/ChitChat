@@ -2,16 +2,10 @@ import "../../css/groupChat.css";
 import { useState, useEffect, useRef } from "react";
 import api from "../../../interceptors/axios";
 
-function getAdmins(group) {
-  // Get admins usernames
-  const menbers = group.members.map((member) => {
-    return { id: member._id, username: member.username };
-  });
-  const admins = menbers.filter((member) => group.admin.includes(member.id));
-  return admins;
-}
-
 function EditGroup(props) {
+  const setTrigger = props.setTrigger;
+  const setChangedGroup = props.setGroup;
+
   const requestUserId = useRef(localStorage.getItem("id"));
   const [group, setGroup] = useState(props.group);
   const [admins, setAdmins] = useState(getAdmins(props.group));
@@ -29,8 +23,8 @@ function EditGroup(props) {
 
     try {
       if (response.status === 200) {
-        props.setTrigger(false);
-        props.setGroup(group);
+        setTrigger(false);
+        setChangedGroup(group);
       } else {
         console.log(response.data.message);
       }
@@ -42,7 +36,7 @@ function EditGroup(props) {
   return props.trigger ? (
     <div className="editGroupPopUp">
       <div className="editGroupPopUp-inner">
-        <p className="closeBtn" onClick={() => props.setTrigger(false)}>
+        <p className="closeBtn" onClick={() => setTrigger(false)}>
           X
         </p>
         <p>Edit Group</p>
@@ -116,7 +110,7 @@ function EditGroup(props) {
           </div>
 
           <div className="d-flex justify-content-end">
-            <button type="button" onClick={() => props.setTrigger(false)}>
+            <button type="button" onClick={() => setTrigger(false)}>
               Cancel
             </button>
           </div>
@@ -128,6 +122,15 @@ function EditGroup(props) {
       </div>
     </div>
   ) : null;
+}
+
+function getAdmins(group) {
+  // Get admins usernames
+  const menbers = group.members.map((member) => {
+    return { id: member._id, username: member.username };
+  });
+  const admins = menbers.filter((member) => group.admin.includes(member.id));
+  return admins;
 }
 
 export default EditGroup;

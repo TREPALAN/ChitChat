@@ -4,14 +4,23 @@ const Message = require("../../../models/groupMessage");
 const groupChat = async (req, res) => {
   const { groupId, paginatePerPage } = req.query;
   try {
-    const group = await Group.findById(groupId).populate("members");
+    const group = await Group.findById(groupId).populate("requests members");
+
+    const members = group.members.map((member) => member._id.toString());
+    if (!members.includes(req.user._id)) {
+      const requests = group.requests.map((request) => request._id.toString());
+      let requested = false;
+      if (requests.includes(req.user._id)) {
+        requested = true;
+      }
+      return res.json({
+        code: 400,
+        message: "You are not in this group",
+        requested,
+      });
+    }
 
     const isAdmin = group.admin.includes(req.user._id);
-
-    const menbers = group.members.map((member) => member._id.toString());
-    if (!menbers.includes(req.user._id)) {
-      return res.json({ code: 400, message: "You are not in this group" });
-    }
 
     const messages = await Message.find({
       group: groupId,
