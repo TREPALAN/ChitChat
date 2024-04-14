@@ -46,8 +46,17 @@ module.exports = [
       if (isDangerous) {
         throw new Error("admin cannot contain especial characters");
       }
-      const users = await User.find({ username: { $in: value } });
+
+      value.forEach(async (admin) => {
+        const user = await User.findById(admin);
+        if (!user) {
+          throw new Error("admin not found");
+        }
+      });
+
+      return true;
     }),
+
   body("group.admin.*")
     .isString()
     .withMessage("admin must be an array of strings"),

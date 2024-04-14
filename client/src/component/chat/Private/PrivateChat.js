@@ -1,10 +1,10 @@
 import { useEffect, useState, useReducer, useRef } from "react";
 import { useParams } from "react-router-dom";
-import MessageCardList from "../cards/messageCardList";
-import api from "../../interceptors/axios";
-import { sendPrivateMessage, getSocket } from "../../socket/socket";
-import MessagesReducer from "../../reducers/PrivateMessagesReducer";
-import useIsUserOnline from "../../utils/isUserOnlineHook";
+import MessageCardList from "../../cards/messageCardList";
+import api from "../../../interceptors/axios";
+import { sendPrivateMessage, getSocket } from "../../../socket/socket";
+import MessagesReducer from "../../../reducers/PrivateMessagesReducer";
+import useIsUserOnline from "../../../utils/isUserOnlineHook";
 
 function PrivateChat() {
   const paginatePerPage = 20;

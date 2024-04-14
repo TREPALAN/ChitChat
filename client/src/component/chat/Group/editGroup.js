@@ -1,6 +1,6 @@
-import "../css/groupChat.css";
+import "../../css/groupChat.css";
 import { useState, useEffect, useRef } from "react";
-import api from "../../interceptors/axios";
+import api from "../../../interceptors/axios";
 
 function getAdmins(group) {
   // Get admins usernames

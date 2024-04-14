@@ -11,12 +11,16 @@ module.exports = [
       if (dangerousChars.test(value)) {
         throw new Error("username cannot contain especial characters");
       }
+
+      return true;
     })
     .custom(async (value) => {
       const user = await User.findOne({ username: value });
       if (user) {
         throw new Error("Username already exists");
       }
+
+      return true;
     }),
 
   body("password")

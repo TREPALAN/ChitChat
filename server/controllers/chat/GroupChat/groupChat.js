@@ -6,6 +6,8 @@ const groupChat = async (req, res) => {
   try {
     const group = await Group.findById(groupId).populate("members");
 
+    const isAdmin = group.admin.includes(req.user._id);
+
     const menbers = group.members.map((member) => member._id.toString());
     if (!menbers.includes(req.user._id)) {
       return res.json({ code: 400, message: "You are not in this group" });
@@ -23,7 +25,7 @@ const groupChat = async (req, res) => {
     const count = await Message.countDocuments({ group: groupId });
     const totalpages = Math.ceil(count / paginatePerPage);
 
-    res.json({ group, messages: messages.reverse(), totalpages });
+    res.json({ group, messages: messages.reverse(), totalpages, isAdmin });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
