@@ -14,7 +14,7 @@ function GroupÍfError(props) {
     try {
       const result = await api.put("/chat/requestToJoin", { groupId });
       if (result.status === 200) {
-        setIsRequestedToJoin(true);
+        setIsRequestedToJoin(!isRequestedToJoin);
       } else {
         console.log(result.data.message);
       }
@@ -28,7 +28,10 @@ function GroupÍfError(props) {
       {message}
       <br />
       {isRequestedToJoin ? (
-        <p>You have already requested to join this group</p>
+        <>
+          <p>You have already requested to join this group</p>
+          <button onClick={RequestToJoin}>Dlete Request</button>
+        </>
       ) : (
         <button onClick={RequestToJoin}>Request to Join</button>
       )}

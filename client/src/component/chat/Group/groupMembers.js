@@ -45,7 +45,7 @@ function GroupMembers(props) {
 
     if (response.status === 200) {
       setTrigger(false);
-      setGroup(response.data.group);
+      setGroup(response.data.updatedGroup);
     } else {
       console.log(response.data.message);
     }
