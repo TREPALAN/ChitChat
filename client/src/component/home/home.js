@@ -1,14 +1,22 @@
 import { useState, useEffect } from "react";
 import api from "../../interceptors/axios";
 function Home() {
-  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   useEffect(() => {
-    api.get("/home").then((res) => setMessage(res.data.message));
-  });
+    (async function getMessages() {
+      const response = await api.get("/home");
+      setMessages(response.data.messages);
+      console.log(response.data.messages);
+    })();
+  }, []);
 
   return (
     <div className="App">
-      <h1>{message}</h1>
+      {messages.map((message) => (
+        <h1 key={message._id}>
+          {message.message} {message.isRead}
+        </h1>
+      ))}
     </div>
   );
 }

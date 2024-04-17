@@ -24,7 +24,7 @@ function GroupChat() {
   // Scroll to the bottom after messages are mapped
 
   useEffect(() => {
-    async function getGroup() {
+    (async function getGroup() {
       // Load messages and group data
       try {
         const response = await api.get("/chat/groupChat/", {
@@ -50,8 +50,7 @@ function GroupChat() {
       } catch (error) {
         console.log(error);
       }
-    }
-    getGroup();
+    })();
 
     // Join group socket
     const socket = getSocket();

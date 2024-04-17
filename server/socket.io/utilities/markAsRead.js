@@ -9,7 +9,7 @@ async function markAsRead(socket, _id, sender, onlineUsers) {
       { $set: { isRead: true } }
     );
 
-    // Send private message to  all of the sender secions
+    // Mark as read in all of the sender secions
     if (onlineUsers.some((u) => u.username === sender)) {
       const senderSockets = onlineUsers.filter((u) => u.username === sender);
       senderSockets.forEach((senderSocket) => {
