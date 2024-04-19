@@ -11,7 +11,7 @@ async function home(req, res) {
       isRead: false,
     })
       .sort({ date: -1 })
-      .select("message sender");
+      .select("message sender date");
 
     // Join messages with the same sender
     const newPrivateMessages = [];
@@ -38,6 +38,7 @@ async function home(req, res) {
             if (message.sender._id.toString() === senderId) {
               senderObj.messages.push({
                 _id: message._id,
+                date: message.dateFormatted,
                 message: message.message,
               });
             }
@@ -55,24 +56,31 @@ async function home(req, res) {
     const newGroupMessages = [];
 
     for (let group of userGroups) {
-      (async () => {
-        try {
-          const groupMessages = await GroupMessages.find({
-            group: group._id,
-          })
-            .sort({ date: -1 })
-            .select("message sender")
-            .populate("sender")
-            .limit(5);
+      try {
+        const groupMessages = await GroupMessages.find({
+          group: group._id,
+        })
+          .sort({ date: -1 })
+          .select("message sender date")
+          .populate("sender")
+          .limit(5);
 
-          newGroupMessages.push({
-            group: { _id: group._id.toString(), name: group.name },
-            messages: groupMessages,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      })();
+        let Messages = groupMessages.map((message) => {
+          return {
+            _id: message._id,
+            date: message.dateFormatted,
+            message: message.message,
+            sender: message.sender,
+          };
+        });
+
+        newGroupMessages.push({
+          group: { _id: group._id.toString(), name: group.name },
+          messages: Messages,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     return res.json({

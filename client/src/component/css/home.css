@@ -1,4 +1,17 @@
-.homepageMessage {
-  width: 10%;
-  background-color: darkgray;
+.card {
+  width: 18rem;
+  margin: 0.5rem;
+}
+
+.homepageMessageText {
+  text-align: center;
+}
+
+.HomeMessageDate {
+  float: left;
+}
+
+.HomeNotifications {
+  display: flex;
+  flex-wrap: wrap;
 }
