@@ -1,34 +1,84 @@
 const PrivateMessages = require("../../models/privateMessage");
 const Group = require("../../models/group");
 const GroupMessages = require("../../models/groupMessage");
+const getUser = require("../../utils/GetUser");
 
 async function home(req, res) {
   const userId = req.user._id;
   try {
-    const newPrivateMessages = await PrivateMessages.find({
+    const allnewPrivateMessages = await PrivateMessages.find({
       receiver: userId,
       isRead: false,
+    })
+      .sort({ date: -1 })
+      .select("message sender");
+
+    // Join messages with the same sender
+    const newPrivateMessages = [];
+
+    const senderIds = new Set(
+      allnewPrivateMessages.map((message) => message.sender._id.toString())
+    );
+
+    senderIds.forEach((senderId) => {
+      const senderObj = {
+        sender: null,
+        messages: [],
+      };
+
+      (async () => {
+        try {
+          senderObj.sender = await getUser(null, senderId, null);
+
+          for (message of allnewPrivateMessages) {
+            if (senderObj.messages.length >= 5) {
+              break;
+            }
+
+            if (message.sender._id.toString() === senderId) {
+              senderObj.messages.push({
+                _id: message._id,
+                message: message.message,
+              });
+            }
+          }
+
+          newPrivateMessages.push(senderObj);
+        } catch (error) {
+          console.log(error);
+        }
+      })();
     });
 
     const userGroups = await Group.find({ members: userId });
 
     const newGroupMessages = [];
 
-    for (let i = 0; i < userGroups.length; i++) {
-      const group = userGroups[i];
-      const groupMessages = await GroupMessages.find({
-        group: group._id,
-        readBy: { $nin: [userId] },
-      });
-      newGroupMessages.push(...groupMessages);
+    for (let group of userGroups) {
+      (async () => {
+        try {
+          const groupMessages = await GroupMessages.find({
+            group: group._id,
+          })
+            .sort({ date: -1 })
+            .select("message sender")
+            .populate("sender")
+            .limit(5);
+
+          newGroupMessages.push({
+            group: { _id: group._id.toString(), name: group.name },
+            messages: groupMessages,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      })();
     }
 
-    const newMessages = [...newPrivateMessages, ...newGroupMessages];
-    const sortedMessages = newMessages.sort((a, b) => {
-      return new Date(b.date) - new Date(a.date);
+    return res.json({
+      privateMessages: newPrivateMessages,
+      groupMessages: newGroupMessages,
     });
-
-    return res.json({ messages: sortedMessages });
   } catch (error) {
     console.log(error);
   }
