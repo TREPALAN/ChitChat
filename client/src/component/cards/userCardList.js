@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import UserCard from "./userCard";
 import { getSocket } from "../../socket/socket";
-import "../css/userCardList.css";
 import paginate from "../../utils/itenPagination";
 
 function UserCardList({ users }) {

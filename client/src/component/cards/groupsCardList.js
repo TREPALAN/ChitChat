@@ -11,17 +11,20 @@ function GroupsCardList({ groups }) {
 
   return (
     <>
-      <div className="card-group">
-        {paginatedGroups.map(({ _id, name, description, members, admin }) => (
-          <GroupCard
-            key={_id}
-            id={_id}
-            name={name}
-            description={description}
-            members={members.length}
-            admin={admin.map((user) => user.username).join(", ")}
-          />
-        ))}
+      <div>
+        {paginatedGroups.map(
+          ({ _id, name, description, members, admin, requests }) => (
+            <GroupCard
+              key={_id}
+              id={_id}
+              name={name}
+              description={description}
+              members={members}
+              admin={admin}
+              requested={requests.includes(localStorage.getItem("id"))}
+            />
+          )
+        )}
       </div>
 
       {totalPages > 1 && (

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { TrackOnlineUser } from "../../socket/socket";
+import { useState } from "react";
+import useIsUserOnline from "../../utils/isUserOnlineHook";
 import api from "../../interceptors/axios";
 import isFriendWith from "../../icons/isFriendsWith.svg";
 import onlineIcon from "../../icons/online.svg";
@@ -7,6 +7,7 @@ import offlineIcon from "../../icons/offline.svg";
 import personAdd from "../../icons/personAdd.svg";
 import personDash from "../../icons/personDash.svg";
 import sendPlus from "../../icons/sendPlus.svg";
+import envelopeAtFill from "../../icons/envelopeAtFill.svg";
 import "../css/userCard.css";
 
 function UserCard({
@@ -18,25 +19,11 @@ function UserCard({
   isRequestReceived,
   hasNewMessage,
 }) {
-  const [online, setOnline] = useState(false);
+  const online = useIsUserOnline(username);
   const [friend, setFriend] = useState(isFriend);
   const [requestSent, setRequestSent] = useState(isRequestSent);
   const [requestReceived, setRequestReceived] = useState(isRequestReceived);
   const [isFetching, setIsFetching] = useState(false);
-
-  useEffect(() => {
-    // Track if a user is online
-    async function checkOnline() {
-      const result = await TrackOnlineUser(username);
-      setOnline(result);
-    }
-    checkOnline();
-    const interval = setInterval(checkOnline, 5000); // 5000 with the interval time in milliseconds
-
-    return () => {
-      clearInterval(interval); // Clean up the interval when the component is unmounted
-    };
-  }, [username]);
 
   // Accept/Decline friend request
   function acceptFriendRequest(event) {
@@ -116,6 +103,11 @@ function UserCard({
               <a href={`/privateChat/${username}`} className="ChatLink">
                 <img src={sendPlus} alt="send message" title="send message" />
               </a>
+              {hasNewMessage && (
+                <div className="newMessage">
+                  <img src={envelopeAtFill} alt="new message" /> new message{" "}
+                </div>
+              )}
             </div>
 
             <br />
@@ -125,11 +117,12 @@ function UserCard({
               <div>you</div>
             ) : (
               <div>
-                <button className="btn btn-danger" onClick={removeFriend}>
+                <button
+                  className="btn  btn-outline-danger"
+                  onClick={removeFriend}
+                >
                   <img src={personDash} alt="remove friend" /> remove friend
                 </button>
-
-                {hasNewMessage && <div className="newMessage">new</div>}
               </div>
             )}
           </>
@@ -146,7 +139,7 @@ function UserCard({
             <br />
             <div className="requestReceivedButtons">
               <button
-                className="btn btn-danger"
+                className="btn  btn-outline-danger"
                 value="decline"
                 onClick={acceptFriendRequest}
               >
@@ -154,7 +147,7 @@ function UserCard({
               </button>
 
               <button
-                className="btn btn-success"
+                className="btn  btn-outline-success"
                 value="accept"
                 onClick={acceptFriendRequest}
               >
@@ -171,7 +164,7 @@ function UserCard({
 
             <br />
 
-            <button className="btn btn-danger" onClick={addFriend}>
+            <button className="btn  btn-outline-warning" onClick={addFriend}>
               <img src={personDash} alt="add friend" /> Cancel friend request
             </button>
           </>
@@ -184,7 +177,7 @@ function UserCard({
 
             <br />
 
-            <button className="btn btn-primary" onClick={addFriend}>
+            <button className="btn btn-outline-primary" onClick={addFriend}>
               <img src={personAdd} alt="add friend" /> Send friend request
             </button>
           </>

@@ -33,12 +33,12 @@ function MessagesReducer(messages, action) {
     case "messageReceived":
       return {
         old: null,
-        messages: currentMessages.slice(1),
+        messages: currentMessages,
         new: action.messages,
       };
 
     case "messageSent":
-      const Array = currentMessages.slice(1).concat(action.messages);
+      const Array = currentMessages.concat(action.messages);
       return {
         old: null,
         messages: Array,

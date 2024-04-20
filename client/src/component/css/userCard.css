@@ -8,6 +8,11 @@
   color: forestgreen;
 }
 
+.newMessage {
+  color: green;
+  float: right;
+}
+
 .notFriend {
   color: red;
 }

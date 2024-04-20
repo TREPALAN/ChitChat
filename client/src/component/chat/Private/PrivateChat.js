@@ -5,12 +5,15 @@ import api from "../../../interceptors/axios";
 import { sendPrivateMessage, getSocket } from "../../../socket/socket";
 import MessagesReducer from "../../../reducers/PrivateMessagesReducer";
 import useIsUserOnline from "../../../utils/isUserOnlineHook";
+import onlineIcon from "../../../icons/online.svg";
+import offlineIcon from "../../../icons/offline.svg";
 
 function PrivateChat() {
   const paginatePerPage = 20;
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useReducer(MessagesReducer, null);
-  const page = useRef(null);
+  const page = useRef(0);
+  const [loading, setLoading] = useState(true);
   const totalpages = useRef(null);
   const [error, setError] = useState("");
   const { username } = useParams();
@@ -28,15 +31,14 @@ function PrivateChat() {
   // this effect is supposed to run only once
   useEffect(() => {
     // Load existing messages
-    async function loadMessages() {
-      const currentPage = 0;
-      page.current = currentPage;
+    (async function loadMessages() {
       const result = await api.get("/chat/loadPrivateMessages/", {
-        params: { username, currentPage, paginatePerPage },
+        params: { username, currentPage: 0, paginatePerPage },
       });
       try {
         if (result.status === 200) {
           totalpages.current = result.data.totalpages;
+          setLoading(false);
           setMessages({
             type: "setInitialMessages",
             messages: result.data.messages,
@@ -47,8 +49,7 @@ function PrivateChat() {
       } catch (error) {
         console.log(error);
       }
-    }
-    loadMessages();
+    })();
 
     // Listen for new messages
     const socket = getSocket();
@@ -66,7 +67,7 @@ function PrivateChat() {
     page.current = nextPage;
 
     const result = await api.get("/chat/loadPrivateMessages/", {
-      params: { username, nextPage, paginatePerPage },
+      params: { username, currentPage: nextPage, paginatePerPage },
     });
     try {
       if (result.status === 200) {
@@ -95,9 +96,19 @@ function PrivateChat() {
 
   return (
     <div>
-      {online ? <p>Online</p> : <p>Offline</p>}
-      <h1>Private Chat</h1>
+      {online ? (
+        <p>
+          <img src={onlineIcon} alt="online" style={{ width: "10px" }} /> Online
+        </p>
+      ) : (
+        <p>
+          <img src={offlineIcon} alt="offline" style={{ width: "10px" }} />{" "}
+          Offline
+        </p>
+      )}
+      <h1>{username}</h1>
       {/* Display messages */}
+      {loading && <p>Loading messages...</p>}
       {messages && (
         <>
           {totalpages.current > page.current ? (

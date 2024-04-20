@@ -1,7 +1,13 @@
+import "../css/messageCard.css";
+
 function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
-  const requestUser = localStorage.getItem("username");
+  const requestUser = localStorage.getItem("id");
+  const messageclass =
+    requestUser === sender._id ? "bubble-right" : "bubble-left";
+
+  console.log(requestUser, sender._id, receiver);
   return (
-    <>
+    <div className={messageclass}>
       {requestUser === receiver ? (
         // If the user is the receiver
         <div className="messageCard">
@@ -18,7 +24,7 @@ function MessageCard({ _id, sender, receiver, date, message, isRead, isNew }) {
           <p>{message}</p>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
