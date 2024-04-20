@@ -85,7 +85,9 @@ function Home() {
                             {message.date}:
                           </small>
 
-                          <small>{message.sender.username}: </small>
+                          <small className="HomeMessageSender">
+                            {message.sender.username}
+                          </small>
                           <small className="HomeMessage">
                             {message.message}
                           </small>

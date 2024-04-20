@@ -11,6 +11,11 @@
   float: left;
 }
 
+.HomeMessageSender {
+  float: right;
+  color: rgb(24, 116, 79);
+}
+
 .HomeNotifications {
   display: flex;
   flex-wrap: wrap;

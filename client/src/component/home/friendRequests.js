@@ -4,7 +4,7 @@ import UserCardList from "../cards/userCardList";
 
 function FriendRequests() {
   const [users, setUsers] = useState([]);
-  const [message, setMessage] = useState("...");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Get all friends
@@ -12,7 +12,7 @@ function FriendRequests() {
       const response = await api.get("home/friendRequests");
       if (response.status === 200) {
         setUsers(response.data);
-        setMessage("...");
+        setMessage("");
       } else {
         setMessage(response.data.message);
         setUsers([]);
