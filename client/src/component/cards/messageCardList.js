@@ -2,10 +2,12 @@ import MessageCard from "./messageCard";
 import "../css/messageCardList.css";
 
 function MessageCardList({ messages }) {
+  const requestUserId = localStorage.getItem("id");
+
   return (
     <div className="messageCardList">
       {messages.map(
-        ({ _id, sender, receiver, date, message, isRead, isNew }) => (
+        ({ _id, sender, receiver, date, message, isRead, isReceived }) => (
           <MessageCard
             key={_id}
             _id={_id}
@@ -14,7 +16,8 @@ function MessageCardList({ messages }) {
             date={date}
             message={message}
             isRead={isRead}
-            isNew={isNew}
+            requestUserId={requestUserId}
+            isReceived={isReceived}
           />
         )
       )}

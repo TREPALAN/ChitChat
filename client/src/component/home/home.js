@@ -68,36 +68,41 @@ function Home() {
           <div>
             <h5>Group Messages</h5>
 
-            {groupMessages.map((message) => (
-              <div key={message.group._id} className="card">
-                <div className="card-body">
-                  <strong className="card-title">{message.group.name}</strong>
+            {groupMessages.map(
+              (message) =>
+                message.messages.length > 0 && (
+                  <div key={message.group._id} className="card">
+                    <div className="card-body">
+                      <strong className="card-title">
+                        {message.group.name}
+                      </strong>
 
-                  <a href={`/groupChat/${message.group._id}`}>
-                    {" "}
-                    <img src={chatDot} alt="chatDot" />
-                  </a>
-                  <div className="homepageMessageText card-text">
-                    {message.messages.map((message) => {
-                      return (
-                        <p key={message._id}>
-                          <small className="text-muted HomeMessageDate">
-                            {message.date}:
-                          </small>
+                      <a href={`/groupChat/${message.group._id}`}>
+                        {" "}
+                        <img src={chatDot} alt="chatDot" />
+                      </a>
+                      <div className="homepageMessageText card-text">
+                        {message.messages.map((message) => {
+                          return (
+                            <p key={message._id}>
+                              <small className="text-muted HomeMessageDate">
+                                {message.date}:
+                              </small>
 
-                          <small className="HomeMessageSender">
-                            {message.sender.username}
-                          </small>
-                          <small className="HomeMessage">
-                            {message.message}
-                          </small>
-                        </p>
-                      );
-                    })}
+                              <small className="HomeMessageSender">
+                                {message.sender.username}
+                              </small>
+                              <small className="HomeMessage">
+                                {message.message}
+                              </small>
+                            </p>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                )
+            )}
           </div>
         )}
       </div>

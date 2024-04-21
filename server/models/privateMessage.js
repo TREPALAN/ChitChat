@@ -19,6 +19,10 @@ const privateMessageSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  isReceived: {
+    type: Boolean,
+    default: false,
+  },
   isRead: {
     type: Boolean,
     default: false,

@@ -3,6 +3,7 @@ import api from "../../../interceptors/axios";
 import MessageCardList from "../../cards/messageCardList";
 import EditGroup from "./editGroup";
 import GroupMembers from "./groupMembers";
+import SendMessageForm from "../SendMessageForm";
 import { sendGroupMessage } from "../../../socket/socket";
 
 function GroupIFSusses(props) {
@@ -15,9 +16,9 @@ function GroupIFSusses(props) {
   const messages = props.messages;
   const setMessages = props.setMessages;
   const totalpages = props.totalpages;
-  const page = useRef(0);
+  const page = useRef(1);
 
-  if (page.current === 0) {
+  if (page.current === 1) {
     window.scroll({
       top: document.body.scrollHeight,
       left: 0,
@@ -31,14 +32,13 @@ function GroupIFSusses(props) {
   const [error, setError] = useState("");
 
   async function loadMessages() {
-    const nextPage = page.current + 1;
-    page.current = nextPage;
     const result = await api.get("/chat/loadGroupMessages/", {
-      params: { groupId, page: nextPage, paginatePerPage },
+      params: { groupId, page: page.current, paginatePerPage },
     });
     try {
       if (result.status === 200) {
         totalpages.current = result.data.totalpages;
+        page.current = page.current + 1;
         setMessages({
           type: "loadOldMessage",
           messages: result.data.messages,
@@ -109,14 +109,11 @@ function GroupIFSusses(props) {
         {messages.new && <MessageCardList messages={messages.new} />}
       </div>
 
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form>
+      <SendMessageForm
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+        sendMessage={sendMessage}
+      />
     </>
   );
 }

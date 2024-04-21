@@ -1,9 +1,11 @@
 const PrivateMessage = require("../../../models/privateMessage");
 const User = require("../../../models/user");
+const dateFormat = require("../../../utils/dateFormate");
 
 async function loadPrivateMessages(req, res) {
   const { username, currentPage, paginatePerPage } = req.query;
   const requestUserusername = req.user.username;
+  const requestUserId = req.user._id;
 
   try {
     const user = await User.findOne({ username: username });
@@ -32,10 +34,24 @@ async function loadPrivateMessages(req, res) {
       totalpages = Math.ceil(count / paginatePerPage);
     }
 
-    // case of success
-    res.json({ messages: messages.reverse(), totalpages });
+    // mark as received
+    messages.forEach((message) => {
+      if (
+        !message.isReceived &&
+        message.receiver._id.toString() === requestUserId.toString()
+      ) {
+        message.isReceived = true;
+        message.save();
+      }
+    });
 
-    // case of error
+    // Format date
+    messagesWithFormattedDate = dateFormat(messages);
+
+    //////////// case of success////////////
+    res.json({ messages: messagesWithFormattedDate.reverse(), totalpages });
+
+    /////////// case of error /////////////
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

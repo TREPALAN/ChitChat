@@ -1,4 +1,5 @@
 const groupMessage = require("../../../models/groupMessage");
+const dateFormat = require("../../../utils/dateFormate");
 
 async function loadGroupMessages(req, res) {
   const { groupId, page, paginatePerPage } = req.query;
@@ -12,7 +13,10 @@ async function loadGroupMessages(req, res) {
       .limit(paginatePerPage)
       .exec();
 
-    res.json({ messages: messages.reverse(), paginatePerPage });
+    // Format date
+    const formattedMessages = dateFormat(messages);
+
+    res.json({ messages: formattedMessages.reverse(), paginatePerPage });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

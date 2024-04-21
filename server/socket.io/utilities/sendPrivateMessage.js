@@ -1,5 +1,6 @@
 const PrivateMessage = require("../../models/privateMessage");
 const User = require("../../models/user");
+const dateFormat = require("../../utils/dateFormate");
 
 async function sendPrivateMessage(
   socket,
@@ -20,12 +21,17 @@ async function sendPrivateMessage(
     await newMessage.save();
 
     // Populate the sender and receiver fields
-    const populatedMessage = await PrivateMessage.findById(
-      newMessage._id
-    ).populate("sender receiver");
+    const Mmessage = await PrivateMessage.findById(newMessage._id).populate(
+      "sender receiver"
+    );
+
+    // Format date
+    const populatedMessage = dateFormat([Mmessage])[0];
 
     // Send private message to  all of the receiver secions
+    let isReceived = false;
     if (onlineUsers.some((u) => u.username === receiver)) {
+      isReceived = true;
       const receiverSockets = onlineUsers.filter(
         (u) => u.username === receiver
       );
@@ -34,6 +40,13 @@ async function sendPrivateMessage(
           .to(receiverSocket.id)
           .emit("receivePrivateMessage", populatedMessage, username);
       });
+    }
+
+    // mark as received
+    if (isReceived) {
+      populatedMessage.isReceived = true;
+      message.isReceived = true;
+      await Mmessage.save();
     }
     // case of success
     return populatedMessage;

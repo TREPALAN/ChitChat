@@ -1,5 +1,6 @@
 const GroupMessage = require("../../models/groupMessage");
 const User = require("../../models/user");
+const dateFormat = require("../../utils/dateFormate");
 
 async function sendGroupMessage(socket, username, group, message) {
   // Save group message in database
@@ -17,12 +18,14 @@ async function sendGroupMessage(socket, username, group, message) {
       newMessage._id
     ).populate("sender");
 
+    // Format date
+    const formattedMessages = dateFormat([populatedMessage])[0];
     // Send the goup room
     socket
       .to(group._id)
-      .emit("receiveGroupMessage" + group._id, populatedMessage, username);
+      .emit("receiveGroupMessage" + group._id, formattedMessages, username);
 
-    return populatedMessage;
+    return formattedMessages;
   } catch (error) {
     console.log(error);
   }

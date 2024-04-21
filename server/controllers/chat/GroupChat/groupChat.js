@@ -1,5 +1,6 @@
 const Group = require("../../../models/group");
 const Message = require("../../../models/groupMessage");
+const dateFormat = require("../../../utils/dateFormate");
 
 const groupChat = async (req, res) => {
   const { groupId, paginatePerPage } = req.query;
@@ -34,8 +35,18 @@ const groupChat = async (req, res) => {
     const count = await Message.countDocuments({ group: groupId });
     const totalpages = Math.ceil(count / paginatePerPage);
 
-    res.json({ group, messages: messages.reverse(), totalpages, isAdmin });
+    // Format date
+    const formattedMessages = dateFormat(messages);
+
+    // case of success
+    res.json({
+      group,
+      messages: formattedMessages.reverse(),
+      totalpages,
+      isAdmin,
+    });
   } catch (error) {
+    console.log(error.message);
     res.status(500).json({ message: error.message });
   }
 };

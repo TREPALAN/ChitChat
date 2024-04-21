@@ -7,9 +7,11 @@ import MessagesReducer from "../../../reducers/PrivateMessagesReducer";
 import useIsUserOnline from "../../../utils/isUserOnlineHook";
 import onlineIcon from "../../../icons/online.svg";
 import offlineIcon from "../../../icons/offline.svg";
+import SendMessageForm from "../SendMessageForm";
+import "../../css/P_G_Chats.css";
 
 function PrivateChat() {
-  const paginatePerPage = 20;
+  const paginatePerPage = 13;
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useReducer(MessagesReducer, null);
   const page = useRef(0);
@@ -20,7 +22,7 @@ function PrivateChat() {
   const online = useIsUserOnline(username);
 
   // Scroll to the bottom after messages are mapped
-  if (page.current === 0) {
+  if (page.current === 1) {
     window.scroll({
       top: document.body.scrollHeight,
       left: 0,
@@ -33,10 +35,11 @@ function PrivateChat() {
     // Load existing messages
     (async function loadMessages() {
       const result = await api.get("/chat/loadPrivateMessages/", {
-        params: { username, currentPage: 0, paginatePerPage },
+        params: { username, currentPage: page.current, paginatePerPage },
       });
       try {
         if (result.status === 200) {
+          page.current = page.current + 1;
           totalpages.current = result.data.totalpages;
           setLoading(false);
           setMessages({
@@ -63,14 +66,13 @@ function PrivateChat() {
   }, [username]);
 
   async function loadOldMessages() {
-    const nextPage = page.current + 1;
-    page.current = nextPage;
-
+    const currentPage = page.current;
     const result = await api.get("/chat/loadPrivateMessages/", {
-      params: { username, currentPage: nextPage, paginatePerPage },
+      params: { username, currentPage, paginatePerPage },
     });
     try {
       if (result.status === 200) {
+        page.current = currentPage + 1;
         setMessages({ type: "loadOldMessage", messages: result.data.messages });
       } else {
         console.log(result.data.message);
@@ -118,25 +120,33 @@ function PrivateChat() {
           ) : (
             <small>No more messages </small>
           )}
-          {messages.old && <MessageCardList messages={messages.old} />}
-
-          {messages.messages && (
-            <MessageCardList messages={messages.messages} />
+          {messages.old && (
+            <div className="oldMessages" style={{ backgroundColor: "purple" }}>
+              <MessageCardList messages={messages.old} />
+            </div>
           )}
 
-          {messages.new && <MessageCardList messages={messages.new} />}
+          {messages.messages && (
+            <div className="newMessages" style={{ backgroundColor: "#1d1d48" }}>
+              <MessageCardList messages={messages.messages} />
+            </div>
+          )}
+
+          {messages.new && (
+            <div className="newMessages" style={{ backgroundColor: "green" }}>
+              <MessageCardList messages={messages.new} />
+            </div>
+          )}
         </>
       )}
 
-      {/* Send a message */}
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(event) => setNewMessage(event.target.value)}
-        />
-        <button type="submit">Send</button>
-      </form>
+      {/* Send message form */}
+      <SendMessageForm
+        newMessage={newMessage}
+        setNewMessage={setNewMessage}
+        sendMessage={sendMessage}
+      />
+
       {error && <p>{error}</p>}
     </div>
   );

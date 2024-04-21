@@ -4,10 +4,7 @@ async function markAsRead(socket, _id, sender, onlineUsers) {
   // Mark as read
   console.log("markAsRead", _id, sender);
   try {
-    const result = await PrivateMessage.updateOne(
-      { _id },
-      { $set: { isRead: true } }
-    );
+    await PrivateMessage.updateOne({ _id }, { $set: { isRead: true } });
 
     // Mark as read in all of the sender secions
     if (onlineUsers.some((u) => u.username === sender)) {
