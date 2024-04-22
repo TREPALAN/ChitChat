@@ -97,22 +97,28 @@ function PrivateChat() {
   }
 
   return (
-    <div>
-      {online ? (
-        <p>
-          <img src={onlineIcon} alt="online" style={{ width: "10px" }} /> Online
-        </p>
-      ) : (
-        <p>
-          <img src={offlineIcon} alt="offline" style={{ width: "10px" }} />{" "}
-          Offline
-        </p>
-      )}
-      <h1>{username}</h1>
+    <div className="chat">
+      <div className="chatHeader">
+        <h1>{username}</h1>
+
+        <div>
+          {online ? (
+            <>
+              <img src={onlineIcon} alt="online" style={{ width: "10px" }} />{" "}
+              Online
+            </>
+          ) : (
+            <>
+              <img src={offlineIcon} alt="offline" style={{ width: "10px" }} />{" "}
+              Offline
+            </>
+          )}
+        </div>
+      </div>
       {/* Display messages */}
       {loading && <p>Loading messages...</p>}
       {messages && (
-        <>
+        <div className="Chatmessages">
           {totalpages.current > page.current ? (
             <small onClick={loadOldMessages} style={{ cursor: "pointer" }}>
               Load more
@@ -137,7 +143,7 @@ function PrivateChat() {
               <MessageCardList messages={messages.new} />
             </div>
           )}
-        </>
+        </div>
       )}
 
       {/* Send message form */}

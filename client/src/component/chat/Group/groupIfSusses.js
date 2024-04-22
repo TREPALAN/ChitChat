@@ -70,33 +70,48 @@ function GroupIFSusses(props) {
   }
 
   return (
-    <>
-      <h1>{Group.name}</h1>
-      {Group.admin.includes(requestUserId.current) && (
-        // If user is admin
-        <>
-          <button onClick={() => setIsEditing(true)}>Edit Group</button>
+    <div className="chat">
+      <div className="chatHeader">
+        <h1>{Group.name}</h1>
 
-          <div className="editGroup"></div>
-          <EditGroup
-            group={Group}
-            trigger={isEditing}
-            setTrigger={setIsEditing}
-            setGroup={setGroup}
-          />
-        </>
-      )}
-      <button onClick={() => setMenbersTrigger(true)}>Group Members</button>
-      <GroupMembers
-        trigger={menbersTrigger}
-        groupId={groupId}
-        group={Group}
-        setGroup={setGroup}
-        setTrigger={setMenbersTrigger}
-        isAdmin={isAdmin}
-      />
+        {Group.admin.includes(requestUserId.current) && (
+          // If user is admin
+          <div>
+            <button
+              className="btn btn-warning"
+              onClick={() => setIsEditing(true)}
+            >
+              Edit Group
+            </button>
 
-      <div>
+            <div className="editGroup"></div>
+            <EditGroup
+              group={Group}
+              trigger={isEditing}
+              setTrigger={setIsEditing}
+              setGroup={setGroup}
+            />
+          </div>
+        )}
+        <div>
+          <button
+            className="btn btn-warning"
+            onClick={() => setMenbersTrigger(true)}
+          >
+            Group Members
+          </button>
+        </div>
+        <GroupMembers
+          trigger={menbersTrigger}
+          groupId={groupId}
+          group={Group}
+          setGroup={setGroup}
+          setTrigger={setMenbersTrigger}
+          isAdmin={isAdmin}
+        />
+      </div>
+
+      <div className="chatBodyMessages">
         {totalpages.current > page.current ? (
           <small onClick={loadMessages} style={{ cursor: "pointer" }}>
             Load more
@@ -104,9 +119,13 @@ function GroupIFSusses(props) {
         ) : (
           <small>No more messages</small>
         )}
-        {messages.old && <MessageCardList messages={messages.old} />}
-        {messages.messages && <MessageCardList messages={messages.messages} />}
-        {messages.new && <MessageCardList messages={messages.new} />}
+        <div className="Chatmessages">
+          {messages.old && <MessageCardList messages={messages.old} />}
+          {messages.messages && (
+            <MessageCardList messages={messages.messages} />
+          )}
+          {messages.new && <MessageCardList messages={messages.new} />}
+        </div>
       </div>
 
       <SendMessageForm
@@ -114,7 +133,7 @@ function GroupIFSusses(props) {
         setNewMessage={setNewMessage}
         sendMessage={sendMessage}
       />
-    </>
+    </div>
   );
 }
 

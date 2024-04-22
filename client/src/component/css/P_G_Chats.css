@@ -1,5 +1,42 @@
-.sendMessageForm {
+.chat {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.chatHeader {
   position: sticky;
+  display: flex;
+  height: 100px;
+  top: 0;
+  background: linear-gradient(to bottom, rgb(235, 235, 13), transparent);
+}
+
+.chatHeader h1 {
+  margin: 0.5rem;
+}
+
+.chatHeader div {
+  position: relative;
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 8px;
+}
+
+.chatHeader div button {
+  border: none;
+}
+
+.chatBodyMessages {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.sendMessageForm {
+  position: fixed;
   bottom: 40px;
   left: 30%;
   width: 50%;
