@@ -1,6 +1,6 @@
 import { useState } from "react";
-import api from "../../interceptors/axios";
-import GroupsCardList from "../cards/groupsCardList";
+import api from "../../../interceptors/axios";
+import GroupsCardList from "../../cards/groupsCardList";
 
 function SearchGroups() {
   const [groups, setGroups] = useState([]);

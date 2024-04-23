@@ -1,0 +1,74 @@
+.editGroupPopUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+  border-radius: 5px;
+}
+
+.error {
+  position: absolute;
+  color: red;
+  font-size: 0.8rem;
+  bottom: 0;
+  right: 20px;
+  margin: 8px;
+}
+
+.editGroupPopUp h3 {
+  color: rgb(67, 90, 109);
+}
+
+.editGroupPopUp form {
+  position: relative;
+  background-color: rgb(52, 77, 202);
+  padding: 10px;
+}
+
+.editGroupPopUp form .form-control {
+  width: 60%;
+}
+
+.AdminList {
+  position: fixed;
+  right: 10%;
+  top: 10%;
+  height: 60%;
+  width: 20%;
+  background-color: rgb(47, 103, 207);
+  border-radius: 5px;
+  padding: 5px;
+  overflow-y: auto;
+  text-align: center;
+  color: rgb(30, 42, 91);
+}
+
+.editGroupPopUp .closeBtn {
+  position: absolute;
+  color: red;
+  right: 3px;
+  top: 3px;
+  background-color: rgb(14, 14, 69);
+  margin: 4px;
+  width: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.editGroupPopUp .closeBtn:hover {
+  background-color: rgb(48, 39, 129);
+}
+
+.SubmitBtnsGroupEdit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 8px;
+}
+
+.SubmitBtnsGroupEdit button {
+  margin: 8px;
+}

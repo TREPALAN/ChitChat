@@ -4,3 +4,19 @@
   text-decoration: none;
   color: red;
 }
+
+.navigationBar {
+  background-color: rgb(15, 7, 71);
+}
+
+.navigationBar a {
+  color: rgb(98, 120, 218);
+}
+
+.navigationBar a:hover {
+  color: rgb(147, 183, 255);
+}
+
+.navigationBar .nav-item span {
+  color: rgb(100, 158, 170);
+}

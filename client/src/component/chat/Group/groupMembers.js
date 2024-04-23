@@ -1,7 +1,10 @@
-import "../../css/groupChat.css";
 import api from "../../../interceptors/axios";
 import { useState, useReducer, useRef } from "react";
 import MembersReducerLogic from "./membersReducerLogic";
+import checkSquareFillGreen from "../../../icons/checkSquareFillGreen.svg";
+import exclamationCircleFillRed from "../../../icons/exclamationCircleFillRed.svg";
+import squareFillRed from "../../../icons/squareFillRed.svg";
+import "../../css/groupMembers.css";
 
 function changesReducer(members, action) {
   switch (action.type) {
@@ -80,45 +83,61 @@ function GroupMembers(props) {
   }
 
   return trigger ? (
-    <div className="editGroupPopUp">
-      <div className="editGroupPopUp-inner">
-        <p className="closeBtn" onClick={() => setTrigger(false)}>
-          X
-        </p>
+    <div className="groupMembersPopUp">
+      <p className="closeBtn" onClick={() => setTrigger(false)}>
+        X
+      </p>
 
+      <div className="groupGeneral">
         {/* Add Member */}
         <h5>Add Member</h5>
         <form onSubmit={searchNewMembers}>
           <input
             type="text"
+            value={searchNewMember}
+            autoComplete="username"
+            className="form-control"
+            id="userSearch"
             placeholder="username"
             onChange={(e) => setSearchNewMember(e.target.value)}
           />
-          <button type="button">Search</button>
+          <button type="button" className="btn btn-outline-info">
+            Search
+          </button>
         </form>
-        {seacrhResult &&
-          seacrhResult.map((member) => (
-            <div key={member._id}>
-              {member.username}
-              {!members.some((m) => m._id === member._id) && (
-                <MembersReducerLogic
-                  changes={changes}
-                  setChanges={setChanges}
-                  member={member}
-                />
-              )}
-            </div>
-          ))}
+
+        <br />
+
+        <div className="searchResult">
+          {seacrhResult &&
+            seacrhResult.map((member) => (
+              <div key={member._id} className="result">
+                <strong className="username">{member.username}</strong>
+                {!members.some((m) => m._id === member._id) && (
+                  <MembersReducerLogic
+                    changes={changes}
+                    setChanges={setChanges}
+                    member={member}
+                  />
+                )}
+              </div>
+            ))}
+        </div>
         <div>
           {/* Request */}
           <h5>Requestes</h5>
           {group.requests.map((request) => (
             <div key={request._id} id={`request${request._id}`}>
-              {request.username}
+              <strong className="username">{request.username}</strong>
 
-              <button type="button" onClick={() => deleteRequest(request._id)}>
+              <>
+                <img
+                  src={squareFillRed}
+                  alt="decline"
+                  onClick={() => deleteRequest(request._id)}
+                />
                 Decline
-              </button>
+              </>
 
               <MembersReducerLogic
                 changes={changes}
@@ -131,7 +150,7 @@ function GroupMembers(props) {
           <h5>Members</h5>
           {members.map((member) => (
             <div key={member._id}>
-              {member.username}
+              <strong className="username">{member.username}</strong>
               {member._id === requestUserId.current
                 ? " (You)"
                 : isAdmin &&
@@ -144,25 +163,30 @@ function GroupMembers(props) {
                       member={member}
                     />
                   ) : (
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setChanges({ type: "removeMember", menber: member })
-                      }
-                    >
+                    <>
+                      <img
+                        src={squareFillRed}
+                        alt="remove"
+                        onClick={() =>
+                          setChanges({ type: "removeMember", menber: member })
+                        }
+                      />
                       Remove
-                    </button>
+                    </>
                   ))}
               <br />
             </div>
           ))}
         </div>
+      </div>
 
+      <div className="changes">
         {changes.map((change) => (
           <div key={change.member._id}>
             {change.action === "add" ? (
               <>
-                {change.member.username}{" "}
+                <img src={exclamationCircleFillRed} alt="add" />
+                <strong className="username">{change.member.username}</strong>
                 <span style={{ color: "green" }}>Will be added</span>
                 <MembersReducerLogic
                   member={change.member}
@@ -172,7 +196,8 @@ function GroupMembers(props) {
               </>
             ) : (
               <>
-                {change.member.username}{" "}
+                <img src={exclamationCircleFillRed} alt="remove" />
+                <strong className="username">{change.member.username}</strong>
                 <span style={{ color: "red" }}>Will be removed</span>
                 <MembersReducerLogic
                   member={change.member}
@@ -183,15 +208,18 @@ function GroupMembers(props) {
             )}
           </div>
         ))}
-        {isAdmin && changes.length > 0 && (
-          <>
-            <button onClick={handleSubmit}>Save</button>
-            <strong style={{ color: "red" }}>
-              On Hit save all changes will be saved
-            </strong>
-          </>
-        )}
       </div>
+
+      {isAdmin && changes.length > 0 && (
+        <div className="saveBtn">
+          <strong style={{ color: "red", marginRight: "0.5rem" }}>
+            On Hit save all changes will be saved
+          </strong>
+          <button onClick={handleSubmit} className="btn btn-primary">
+            Save
+          </button>
+        </div>
+      )}
     </div>
   ) : null;
 }

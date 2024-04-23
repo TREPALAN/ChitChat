@@ -28,9 +28,9 @@ function MessageCard({
         {sender._id === requestUserId &&
           (isReceived ? (
             isRead ? (
-              <img src={check2AllBlue} alt="read" title="read" />
+              <img src={check2AllRed} alt="read" title="read" />
             ) : (
-              <img src={check2AllRed} alt="received" title="received" />
+              <img src={check2AllBlue} alt="received" title="received" />
             )
           ) : (
             <img src={check2AllBlur} alt="sent" title="sent" />

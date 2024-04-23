@@ -8,6 +8,7 @@
   border-radius: 5px;
   background-color: #6ba5c1;
 }
+
 .bubble-right {
   float: right;
   clear: both;
@@ -16,7 +17,7 @@
   margin: 10px;
   padding: 10px;
   border-radius: 5px;
-  background-color: #844f8d;
+  background-color: #5546d9;
 }
 
 .message {

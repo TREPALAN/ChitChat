@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../interceptors/axios";
+import api from "../../../interceptors/axios";
 
 function CreateGroup() {
   const [groupName, setGroupName] = useState("");

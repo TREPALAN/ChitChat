@@ -16,6 +16,7 @@ function GroupIFSusses(props) {
   const messages = props.messages;
   const setMessages = props.setMessages;
   const totalpages = props.totalpages;
+  const scrollToOldMessage = useRef(null);
   const page = useRef(1);
 
   if (page.current === 1) {
@@ -24,6 +25,9 @@ function GroupIFSusses(props) {
       left: 0,
       behavior: "instant",
     });
+  }
+  if (messages.old) {
+    scrollToOldMessage.current.scrollIntoView();
   }
 
   const [newMessage, setNewMessage] = useState("");
@@ -78,53 +82,53 @@ function GroupIFSusses(props) {
           // If user is admin
           <div>
             <button
-              className="btn btn-warning"
-              onClick={() => setIsEditing(true)}
+              className={
+                menbersTrigger
+                  ? "disabled" + " btn btn-primary"
+                  : "btn btn-primary"
+              }
+              onClick={() => setIsEditing(!isEditing)}
             >
               Edit Group
             </button>
-
-            <div className="editGroup"></div>
-            <EditGroup
-              group={Group}
-              trigger={isEditing}
-              setTrigger={setIsEditing}
-              setGroup={setGroup}
-            />
           </div>
         )}
         <div>
           <button
-            className="btn btn-warning"
-            onClick={() => setMenbersTrigger(true)}
+            className={
+              isEditing ? "disabled" + " btn btn-primary" : "btn btn-primary"
+            }
+            onClick={() => setMenbersTrigger(!menbersTrigger)}
           >
             Group Members
           </button>
         </div>
-        <GroupMembers
-          trigger={menbersTrigger}
-          groupId={groupId}
-          group={Group}
-          setGroup={setGroup}
-          setTrigger={setMenbersTrigger}
-          isAdmin={isAdmin}
-        />
       </div>
 
       <div className="chatBodyMessages">
-        {totalpages.current > page.current ? (
-          <small onClick={loadMessages} style={{ cursor: "pointer" }}>
-            Load more
-          </small>
-        ) : (
-          <small>No more messages</small>
-        )}
-        <div className="Chatmessages">
+        <div className="loadOldMessages">
+          {totalpages.current > page.current ? (
+            <small onClick={loadMessages} style={{ cursor: "pointer" }}>
+              <strong>Load more</strong>
+            </small>
+          ) : (
+            <small>No more messages</small>
+          )}
+        </div>
+
+        <div>
           {messages.old && <MessageCardList messages={messages.old} />}
+          <div ref={scrollToOldMessage} />
+
           {messages.messages && (
             <MessageCardList messages={messages.messages} />
           )}
-          {messages.new && <MessageCardList messages={messages.new} />}
+
+          {messages.new && (
+            <>
+              <MessageCardList messages={messages.new} />
+            </>
+          )}
         </div>
       </div>
 
@@ -132,6 +136,24 @@ function GroupIFSusses(props) {
         newMessage={newMessage}
         setNewMessage={setNewMessage}
         sendMessage={sendMessage}
+      />
+
+      {/* Edit Group */}
+      <EditGroup
+        group={Group}
+        trigger={isEditing}
+        setTrigger={setIsEditing}
+        setGroup={setGroup}
+      />
+
+      {/* Group Members */}
+      <GroupMembers
+        trigger={menbersTrigger}
+        groupId={groupId}
+        group={Group}
+        setGroup={setGroup}
+        setTrigger={setMenbersTrigger}
+        isAdmin={isAdmin}
       />
     </div>
   );

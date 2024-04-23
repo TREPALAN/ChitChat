@@ -1,7 +1,7 @@
 import SearchGroups from "./searchGroups";
 import CreateGroup from "./createGroup";
 import MyGroups from "./myGroups";
-import "../css/GroupsNavigation.css";
+import "../../css/GroupsNavigation.css";
 
 // Order is Groups > Goups Navigation > (My Groups, Search Groups, Create Group) > GroupCardList > GroupCard
 function GroupsNavigation() {

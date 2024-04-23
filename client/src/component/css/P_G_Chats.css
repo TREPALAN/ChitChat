@@ -11,7 +11,7 @@
   display: flex;
   height: 100px;
   top: 0;
-  background: linear-gradient(to bottom, rgb(235, 235, 13), transparent);
+  background: linear-gradient(to bottom, rgb(75, 50, 238), transparent);
 }
 
 .chatHeader h1 {
@@ -25,14 +25,26 @@
   margin-left: 8px;
 }
 
+.isLoading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .chatHeader div button {
   border: none;
+  background-color: rgb(56, 56, 128);
+  color: rgb(147, 183, 255);
+}
+
+.loadOldMessages {
+  text-align: center;
 }
 
 .chatBodyMessages {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
 }
 
 .sendMessageForm {
@@ -49,5 +61,5 @@
 
 .sendMessageForm button {
   width: 100%;
-  border: 1px solid rgb(38, 148, 152);
+  border: 2px solid rgb(13, 57, 124);
 }

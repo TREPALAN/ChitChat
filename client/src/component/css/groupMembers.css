@@ -1,0 +1,84 @@
+.groupMembersPopUp {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%, -50%);
+  overflow-y: auto;
+  border-radius: 5px;
+  background-color: rgb(133, 142, 185);
+}
+
+.groupMembersPopUp .closeBtn {
+  position: absolute;
+  color: red;
+  right: 3px;
+  top: 3px;
+  background-color: rgb(14, 14, 69);
+  margin: 4px;
+  width: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.groupMembersPopUp .closeBtn:hover {
+  background-color: rgb(48, 39, 129);
+}
+
+.groupMembersPopUp .groupGeneral {
+  width: 50%;
+}
+
+.groupMembersPopUp .groupGeneral form {
+  display: flex;
+  flex-direction: row;
+}
+
+.groupMembersPopUp .groupGeneral form input {
+  width: 60%;
+  margin-right: 10px;
+}
+
+.groupMembersPopUp .groupGeneral .searchResult {
+  max-width: 60%;
+  border-radius: 5px;
+  padding: 5px;
+  max-height: 300px;
+  overflow-y: auto;
+
+  color: rgb(19, 26, 55);
+}
+
+.groupMembersPopUp .groupGeneral .searchResult .result {
+  margin: 5px;
+  cursor: pointer;
+  border: 2px solid rgb(23, 37, 63);
+  padding: 4px;
+}
+
+.groupMembersPopUp img {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin: 4px;
+}
+
+.groupMembersPopUp .username {
+  margin: 5px;
+}
+
+.groupMembersPopUp .changes {
+  position: fixed;
+  margin: 4px;
+  top: 12%;
+  right: 8%;
+  max-width: 40%;
+}
+
+.groupMembersPopUp .saveBtn {
+  position: absolute;
+  bottom: 1%;
+  right: 3%;
+  margin: 4px;
+}

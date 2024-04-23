@@ -5,7 +5,7 @@ import MessagesReducer from "../../../reducers/GroupMessagesReducer";
 import { getSocket } from "../../../socket/socket";
 import GroupÍfError from "./groupIfError";
 import GroupIFSusses from "./groupIfSusses";
-import "../../css/groupChat.css";
+import "../../css/P_G_Chats.css";
 
 function GroupChat() {
   const requestUserId = useRef(localStorage.getItem("id"));
@@ -74,7 +74,7 @@ function GroupChat() {
     // If loading
     return (
       <div>
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center isLoading">
           <strong>Loading...</strong>
           <div
             className="spinner-border ml-auto"

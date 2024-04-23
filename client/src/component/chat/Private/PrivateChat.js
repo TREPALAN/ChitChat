@@ -13,7 +13,7 @@ import "../../css/P_G_Chats.css";
 function PrivateChat() {
   const paginatePerPage = 13;
   const [newMessage, setNewMessage] = useState("");
-  const [messages, setMessages] = useReducer(MessagesReducer, null);
+  const [messages, setMessages] = useReducer(MessagesReducer, []);
   const page = useRef(0);
   const [loading, setLoading] = useState(true);
   const totalpages = useRef(null);
@@ -22,7 +22,7 @@ function PrivateChat() {
   const online = useIsUserOnline(username);
 
   // Scroll to the bottom after messages are mapped
-  if (page.current === 1) {
+  if (page.current === 1 || messages.new) {
     window.scroll({
       top: document.body.scrollHeight,
       left: 0,
@@ -119,27 +119,30 @@ function PrivateChat() {
       {loading && <p>Loading messages...</p>}
       {messages && (
         <div className="Chatmessages">
-          {totalpages.current > page.current ? (
-            <small onClick={loadOldMessages} style={{ cursor: "pointer" }}>
-              Load more
-            </small>
-          ) : (
-            <small>No more messages </small>
-          )}
+          <div className="loadOldMessages">
+            {totalpages.current > page.current ? (
+              <small onClick={loadOldMessages} style={{ cursor: "pointer" }}>
+                <strong>Load more messages</strong>
+              </small>
+            ) : (
+              <small>No more messages </small>
+            )}
+          </div>
+
           {messages.old && (
-            <div className="oldMessages" style={{ backgroundColor: "purple" }}>
+            <div className="oldMessages">
               <MessageCardList messages={messages.old} />
             </div>
           )}
 
           {messages.messages && (
-            <div className="newMessages" style={{ backgroundColor: "#1d1d48" }}>
+            <div className="newMessages">
               <MessageCardList messages={messages.messages} />
             </div>
           )}
 
           {messages.new && (
-            <div className="newMessages" style={{ backgroundColor: "green" }}>
+            <div className="newMessages">
               <MessageCardList messages={messages.new} />
             </div>
           )}

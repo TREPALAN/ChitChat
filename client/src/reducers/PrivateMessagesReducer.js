@@ -38,11 +38,10 @@ function MessagesReducer(messages, action) {
       };
 
     case "messageSent":
-      const Array = currentMessages.concat(action.messages);
       return {
         old: null,
-        messages: Array,
-        new: null,
+        messages: currentMessages,
+        new: [action.messages],
       };
 
     case "setIsRead":

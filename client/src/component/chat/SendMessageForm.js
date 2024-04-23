@@ -13,8 +13,8 @@ function SendMessageForm(props) {
           onChange={(e) => setNewMessage(e.target.value)}
         />
         <div className="input-group-append">
-          <button className="btn btn-outline-secondary" type="button">
-            Button
+          <button className="btn btn-primary" type="button">
+            Send
           </button>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../../interceptors/axios";
-import GroupsCardList from "../cards/groupsCardList";
+import api from "../../../interceptors/axios";
+import GroupsCardList from "../../cards/groupsCardList";
 
 function MyGroups() {
   const [groups, setGroups] = useState([]);
