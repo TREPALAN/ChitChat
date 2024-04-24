@@ -52,7 +52,6 @@
 
 .groupMembersPopUp .groupGeneral .searchResult .result {
   margin: 5px;
-  cursor: pointer;
   border: 2px solid rgb(23, 37, 63);
   padding: 4px;
 }

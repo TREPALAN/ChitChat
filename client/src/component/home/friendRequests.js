@@ -19,10 +19,10 @@ function FriendRequests() {
       }
     }
     getUsers();
-  });
+  }, []);
   return (
     <div>
-      <h1>O Friends</h1>
+      <h1>Friend Requests</h1>
 
       {message && <p>{message}</p>}
       {users && <UserCardList users={users} />}

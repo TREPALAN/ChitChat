@@ -1,13 +1,14 @@
 import api from "../../../interceptors/axios";
-import { useState, useReducer, useRef } from "react";
+import { useState, useReducer, useRef, useEffect } from "react";
 import MembersReducerLogic from "./membersReducerLogic";
-import checkSquareFillGreen from "../../../icons/checkSquareFillGreen.svg";
 import exclamationCircleFillRed from "../../../icons/exclamationCircleFillRed.svg";
 import squareFillRed from "../../../icons/squareFillRed.svg";
 import "../../css/groupMembers.css";
 
 function changesReducer(members, action) {
   switch (action.type) {
+    case "setInitialMembers":
+      return [];
     case "addMember":
       return [...members, { member: action.menber, action: "add" }];
 
@@ -38,6 +39,10 @@ function GroupMembers(props) {
   const [searchNewMember, setSearchNewMember] = useState("");
   const [seacrhResult, setSearchResult] = useState([]);
   const isAdmin = useState(props.isAdmin);
+
+  useEffect(() => {
+    setChanges({ type: "setInitialMembers" });
+  }, [members]);
 
   async function handleSubmit(e) {
     e.preventDefault();

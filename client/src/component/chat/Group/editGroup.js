@@ -11,9 +11,14 @@ function EditGroup(props) {
   const [admins, setAdmins] = useState(getAdmins(props.group));
 
   useEffect(() => {
+    setGroup(props.group);
+    setAdmins(getAdmins(props.group));
+  }, [props]);
+
+  useEffect(() => {
     // Get admins usernames when group changes
     setAdmins(getAdmins(group));
-  }, [group]);
+  }, [group, props]);
 
   async function handleSubmit(e) {
     e.preventDefault();
