@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+# Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+esse readme explica a função de cada pasta e arquivo nesse projeto qual tecnogias são usadas e porque são usadas.
+Esse documento e divido por cada pasta no root do projeto e em cada pasta o resumo de cada arquivo ou pasta
 
-## Available Scripts
+#### todas pastas se encontram em /src
 
-In the project directory, you can run:
+## [index](src/index.js) <a id="index"></a>
 
-### `npm start`
+o index não tem nenhuma modificação tirando a importação
+dos [interceptadores](#interceptors) de response e request implementados usando a biblioteca [axios](https://axios-http.com), o motivo da importação no index e pra garantir que a autentificação do usuario aconteça na parte mais alta do projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## [App](src/App.js) <a id="App"></a>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+o App e responsavel por todo routing do projeto, o app retorna um BrowserRouter com a logica usada renderizar os components dependendo da localização(path) do usuario.
 
-### `npm test`
+`top level components`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+{isLogedin() ? <NavigationBar /> : null}
+{isLogedin() ? <SoccketHook /> : null}
+```
 
-### `npm run build`
+esses são dois componentes que vão ser carregados em todo App desde que o usuario esteja authenticado, o primerio sendo a barra de navegação e o segundo sendo o custom hook que mantem o [socket](#socket) conectado o tempo todo permitindo a implementação de notficações instantaneas em todo aplicativo.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`Routes`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+<Routes>
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Dentro de Routes existem Varios `Route` que tem o `path` que controla a redenrização de componentes de acordo com a localização/ do usuario, todo `Route` aponta qual `element` deve ser renderizado.
 
-### `npm run eject`
+```
+<Route path="/login" element={<Login />} />
+<Route path="/register" element={<Register />} />
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Os primeiros são os responsaveis por renderizar login e logout, esses são os unicos componentes que não requerem que o usuario esteja altenticado.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+ <Route element={<ProtectedRoutes />}>
+    ...varios route
+</Route>
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Esse Route usa que utiliza o componente ProtectedRoutes que usado na [Proteção de Routes](#auth) que confere se o usuario esta autenticado e em caso negativo muta o path para `/login`, isso significa que todo outro Route dentro desse route so vai ser acessível se o usuario estiver autenticado.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## [Auth](src/auth/) <a id="auth"></a>
 
-## Learn More
+dentro dessa pasta se encontra o [ProtectedRoutes](src/auth/ProtectedRoutes.js) que e responsavel por cheacar
+se o usuario esta autenticado antes do app rendenrizar qualquer componente, para isso e utilizado um dos [utils](#utils)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## [Component](src/component/) <a id="component"></a>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+E aqui é onde todos componentes da UI estão localizados.
 
-### Code Splitting
+- [documentação](src/component/COMPONENT.md) dos componentes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## [Icons](src/icons/) <a id="icons"></a>
 
-### Analyzing the Bundle Size
+essa pasta e onde se encontra todos os icones do projeto todos icones são do [bootstrap icons](https://icons.getbootstrap.com)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## [Interceptors](src/interceptors/) <a id="interceptors"></a>
 
-### Making a Progressive Web App
+essa pasta e responsavel pela admistração da API utilizando da biblioteca [axios](https://axios-http.com)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **[axios.js](src/interceptors/axios.js)**
 
-### Advanced Configuration
+  - esse arquivo e responsavel por retornar a `api` com o url para o backend
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **[requestInterceptor.js](src/interceptors/requestInterceptor.js)**
 
-### Deployment
+  - esse arquivo intercepta todos os requests feitos pela `api` permitindo fazer auterações do mesmo, a sua função principal e inserir o token de autenticação em todos request
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **[requestInterceptor.js](src/interceptors/responseInterceptor.js)**
 
-### `npm run build` fails to minify
+  - esse arquivo intercepta todos response recebidos pela `api`, nele e possivel decidir oque fazer com cada status de response, a principal utilização e refrescar o token sempre que o mesmo se encontra expirado
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## [Reducers](src/reducers/) <a id="reducers"></a>
+
+essa pasta contem todos Reducers usados no porjeto
+
+- **[groupMembersChangeReducer](src/reducers/groupMembersChangeReducer.js)**
+
+  - esse reducer e usado no [groupMembers](./src/component/chat/Group/groupMembers.js) componente ele e utilizado para acompanhar alterações de membros feitas em um grupo.
+
+  - Esse arquivo deve retornar uma array com os já alterados members e o novo member com uma action _add_ ou _remove_
+
+  exemplo de retrun:
+
+  > [...members, { member: action.member, action: "add" }]
+
+- **[GroupMessagesReducer](src/reducers/GroupMessagesReducer.js)** e **[PrivateMessagesReducer](src/reducers/PrivateMessagesReducer.js)**
+
+  - Esses reducers são utilizados nos componente [groupChat](./src/component/chat/Group/groupChat.js) e [PrivateChat](./src/component/chat/Private/PrivateChat.js) , eles tem duas funções
+
+    1. cheacar o case que o reducer foi chamado e depemdendo do case atuar uma cheacagem se a mensagem foi marcada como visualizada, se não estiver marcada como visualizada solicitar a marcação como visualizada no server e no proprio objeto.
+
+    2. organizar as mensagens recebidas pela api em _old_, _messages_ e _new_
+
+       - **old**: para quando o usuario carrega antigas mensagens
+
+       - **messages**: messagens no geral que não são novas nem recem carregadas
+
+       - **new**: novas mensagens recebidas ou enviadas
+
+## [Socket](src/socket/) <a id="socket"></a>
+
+Essa pasta e usada pra conectar e manejar o [socket](https://socket.io) do user
+
+- **[socket](src/socket/socket.js)**
+
+        esse arquivo e contem funções utilizando o socket
+
+- **[socketHook](src/socket/socketHook.js)**
+
+        esse custom Hook e responsavel por manter a conexão com o socket entre todo o app. O socket utiliza do mesmo token que o axios oque significa que socket e atualizado sempre que o token e atualizado
+
+## [Utils](src/utils/) <a id="utils"></a>
+
+essa e pasta contem funções que podem ser reutilizadas em diversos components.
+
+- **[getRefreshToken](src/utils/getRefreshToken.js)**
+
+  - essa e uma função assíncrona que retorna uma promise,
+    a função dela e atualizar o token ela troca o valor do local storage pro novo e refrescado token
+
+- **[isLogedin](src/utils/isLogedin.js)**
+
+  - uma função que utiliza do locaStorage pra verificar se o usuario esta logados, ela e pensada pra elementos da UI não para mais complexas funcionalidades
+
+    _não utilizar em funções importantes sem antes checar a autencidade to token com o backend_
+
+- **[isUserOnlineHook](src/utils/isUserOnlineHook.js)**
+
+  esse custom Hook utiliza de uma função de [socket.js](src/socket/socket.js) para acompanhar o status de algum usuario,
+  essa função utiliza um username como argumento e retorna um boolean true or false atualiza as informações a cada 5 segundos.
+
+  _um exemplo de uso e o [PrivateChat](src/component/chat/Private/PrivateChat.js) que utiliza essa função para cheacar se o o usuario esta online_
+
+- **[itenPagination](src/utils/itenPagination.js)**
+
+  esse arquivo e pensado para paginar uma array que seja muito longa ele precisa da array atual(itens), numero de objetos para cada pagina(itemsPerPage) e qual pagina voce esta(currentPage) e ele retorna uma array cortada de acordo com os parametros
+
+  - **[loginFunction](src/utils/loginFunction.js)** e **[logoutFunction](src/utils/logoutFunction.js)**
+
+  A função de login utiliza do username e password para autenticar o usuario e se tudo der certo salvar informações do usuario e o token de autenticação no localStorage, logout desconecta o usuario e limpa o localSotarage.

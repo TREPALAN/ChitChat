@@ -3,28 +3,8 @@ import { useState, useReducer, useRef, useEffect } from "react";
 import MembersReducerLogic from "./membersReducerLogic";
 import exclamationCircleFillRed from "../../../icons/exclamationCircleFillRed.svg";
 import squareFillRed from "../../../icons/squareFillRed.svg";
+import changesReducer from "../../../reducers/groupMembersChangeReducer";
 import "../../css/groupMembers.css";
-
-function changesReducer(members, action) {
-  switch (action.type) {
-    case "setInitialMembers":
-      return [];
-    case "addMember":
-      return [...members, { member: action.menber, action: "add" }];
-
-    case "cancelAddMember":
-      return members.filter((member) => member.member !== action.menber);
-
-    case "removeMember":
-      return [...members, { member: action.menber, action: "remove" }];
-
-    case "cancelRemoveMember":
-      return members.filter((member) => member.member !== action.menber);
-
-    default:
-      return members;
-  }
-}
 
 function GroupMembers(props) {
   const group = props.group;
@@ -173,7 +153,7 @@ function GroupMembers(props) {
                         src={squareFillRed}
                         alt="remove"
                         onClick={() =>
-                          setChanges({ type: "removeMember", menber: member })
+                          setChanges({ type: "removeMember", member: member })
                         }
                       />
                       Remove
