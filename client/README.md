@@ -16,33 +16,25 @@ o App e responsavel por todo routing do projeto, o app retorna um BrowserRouter 
 
 `top level components`
 
-```
-{isLogedin() ? <NavigationBar /> : null}
-{isLogedin() ? <SoccketHook /> : null}
-```
+    {isLogedin() ? <NavigationBar /> : null}
+    {isLogedin() ? <SoccketHook /> : null}
 
 esses são dois componentes que vão ser carregados em todo App desde que o usuario esteja authenticado, o primerio sendo a barra de navegação e o segundo sendo o custom hook que mantem o [socket](#socket) conectado o tempo todo permitindo a implementação de notficações instantaneas em todo aplicativo.
 
 `Routes`
 
-```
-<Routes>
-```
+     <Routes>
 
 Dentro de Routes existem Varios `Route` que tem o `path` que controla a redenrização de componentes de acordo com a localização/ do usuario, todo `Route` aponta qual `element` deve ser renderizado.
 
-```
-<Route path="/login" element={<Login />} />
-<Route path="/register" element={<Register />} />
-```
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
 
 - Os primeiros são os responsaveis por renderizar login e logout, esses são os unicos componentes que não requerem que o usuario esteja altenticado.
 
-```
- <Route element={<ProtectedRoutes />}>
-    ...varios route
-</Route>
-```
+      <Route element={<ProtectedRoutes />}>
+          ...varios route
+      </Route>
 
 - Esse Route usa que utiliza o componente ProtectedRoutes que usado na [Proteção de Routes](#auth) que confere se o usuario esta autenticado e em caso negativo muta o path para `/login`, isso significa que todo outro Route dentro desse route so vai ser acessível se o usuario estiver autenticado.
 
