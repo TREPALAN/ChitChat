@@ -7,7 +7,8 @@
 - [routes](#routes)
 - [controllers](#controllers)
 - [models](#models)
-- [socket](#socket) -[utils](#utils)
+- [socket](#socket)
+- [utils](#utils)
 
 ## [app](app.js)
 
