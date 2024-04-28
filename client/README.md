@@ -5,12 +5,24 @@ Esse documento e divido por cada pasta no root do projeto e em cada pasta o resu
 
 #### todas pastas se encontram em /src
 
-## [index](src/index.js) <a id="index"></a>
+## Table of content
+
+- [index](#index)
+- [App](#app)
+- [auth](#auth)
+- [component](#component)
+- [icons](#icons)
+- [interceptors](#interceptors)
+- [reducers](#reducers)
+- [socket](#socket)
+- [utils](#utils)
+
+## [index](src/index.js)
 
 o index não tem nenhuma modificação tirando a importação
 dos [interceptadores](#interceptors) de response e request implementados usando a biblioteca [axios](https://axios-http.com), o motivo da importação no index e pra garantir que a autentificação do usuario aconteça na parte mais alta do projeto
 
-## [App](src/App.js) <a id="App"></a>
+## [App](src/App.js)
 
 o App e responsavel por todo routing do projeto, o app retorna um BrowserRouter com a logica usada renderizar os components dependendo da localização(path) do usuario.
 
@@ -38,22 +50,22 @@ Dentro de Routes existem Varios `Route` que tem o `path` que controla a redenriz
 
 - Esse Route usa que utiliza o componente ProtectedRoutes que usado na [Proteção de Routes](#auth) que confere se o usuario esta autenticado e em caso negativo muta o path para `/login`, isso significa que todo outro Route dentro desse route so vai ser acessível se o usuario estiver autenticado.
 
-## [Auth](src/auth/) <a id="auth"></a>
+## [Auth](src/auth/)
 
 dentro dessa pasta se encontra o [ProtectedRoutes](src/auth/ProtectedRoutes.js) que e responsavel por cheacar
 se o usuario esta autenticado antes do app rendenrizar qualquer componente, para isso e utilizado um dos [utils](#utils)
 
-## [Component](src/component/) <a id="component"></a>
+## [Component](src/component/)
 
 E aqui é onde todos componentes da UI estão localizados.
 
 - [documentação](src/component/COMPONENT.md) dos componentes
 
-## [Icons](src/icons/) <a id="icons"></a>
+## [Icons](src/icons/)
 
 essa pasta e onde se encontra todos os icones do projeto todos icones são do [bootstrap icons](https://icons.getbootstrap.com)
 
-## [Interceptors](src/interceptors/) <a id="interceptors"></a>
+## [Interceptors](src/interceptors/)
 
 essa pasta e responsavel pela admistração da API utilizando da biblioteca [axios](https://axios-http.com)
 
@@ -69,7 +81,7 @@ essa pasta e responsavel pela admistração da API utilizando da biblioteca [axi
 
   - esse arquivo intercepta todos response recebidos pela `api`, nele e possivel decidir oque fazer com cada status de response, a principal utilização e refrescar o token sempre que o mesmo se encontra expirado
 
-## [Reducers](src/reducers/) <a id="reducers"></a>
+## [Reducers](src/reducers/)
 
 essa pasta contem todos Reducers usados no porjeto
 
@@ -97,7 +109,7 @@ essa pasta contem todos Reducers usados no porjeto
 
        - **new**: novas mensagens recebidas ou enviadas
 
-## [Socket](src/socket/) <a id="socket"></a>
+## [Socket](src/socket/)
 
 Essa pasta e usada pra conectar e manejar o [socket](https://socket.io) do user
 
@@ -109,7 +121,7 @@ Essa pasta e usada pra conectar e manejar o [socket](https://socket.io) do user
 
         esse custom Hook e responsavel por manter a conexão com o socket entre todo o app. O socket utiliza do mesmo token que o axios oque significa que socket e atualizado sempre que o token e atualizado
 
-## [Utils](src/utils/) <a id="utils"></a>
+## [Utils](src/utils/)
 
 essa e pasta contem funções que podem ser reutilizadas em diversos components.
 
