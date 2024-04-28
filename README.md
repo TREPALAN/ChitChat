@@ -2,8 +2,7 @@
 
 # About ChitChat
 
-ChitChat e um aplicativo de mensagens instantaneas que usa React.js no frontend e Node.js no backend.
-Este app usa varias tecnologias como por exemplo Express.js no server side e axios no client side, porém o mais notorio e o [socketIO](https://socket.io) que e usado para mandar mensagens de forma mais rapida e eficiente.
+ChitChat e um aplicativo de mensagens instantaneas que usa React.js no frontend, Node.js no backend e [socketIO](https://socket.io) para permitir o envio de mensagens entre usuários de uma forma mais rápida.
 
 [documentação frontend](client/README.md)
 
