@@ -8,4 +8,3 @@ ChitChat e um aplicativo de bate papo que usa React.js no frontend, Node.js no b
 
 [documentação backend](server/README.md)
 
-### Video showcase [aqui](https://www.youtube.com/watch?v=UJAXnHfaiBY)
